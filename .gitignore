@@ -1,0 +1,26 @@
+# === Maven (Capa principal) ===
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# === NetBeans (Configuración local) ===
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+build/
+
+# === Archivos de sistema y OneDrive ===
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+
+# === IDEs adicionales ===
+.idea/
+.vscode/
+*.iml
