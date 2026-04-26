@@ -4,11 +4,7 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
-public class Usuario {
+abstract public class Usuario {
     private String nombre;
     private String apellidos;
     private Direccion direccion;
