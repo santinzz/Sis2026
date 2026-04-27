@@ -10,15 +10,17 @@ abstract public class Usuario {
     private Direccion direccion;
     private String telefonoContacto;
     private String email;
-    private String tipoUsuario;
+    private String contrasena;
+    private TipoUsuario tipoUsuario;
     
-    public Usuario(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String tipoUsuario) 
+    public Usuario(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, TipoUsuario tipoUsuario) 
     {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
         this.telefonoContacto = telefonoContacto;
         this.email = email;
+        this.contrasena = contrasena;
         this.tipoUsuario = tipoUsuario;
     } 
     
@@ -72,7 +74,11 @@ abstract public class Usuario {
         this.email = email;
     }
     
-    public String GetTipoUsuario()
+    public boolean CompararContrasena(String contrasena) {
+        return this.contrasena.equals(contrasena);
+    }
+    
+    public TipoUsuario GetTipoUsuario()
     {
         return tipoUsuario;
     }
@@ -80,5 +86,11 @@ abstract public class Usuario {
     public void SetTipoUsuario()
     {
         this.tipoUsuario = tipoUsuario;
+    }
+    
+    public boolean Autenticar(String email, String contrasena) 
+    {
+        boolean esEmailCorrecto = GetEmail().equals(email);
+        return esEmailCorrecto && CompararContrasena(contrasena);
     }
 }
