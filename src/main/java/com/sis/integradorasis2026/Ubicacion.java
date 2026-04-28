@@ -27,4 +27,9 @@ public class Ubicacion {
     {
         return municipio;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s, %s", municipio, ciudad);
+    }
 }

@@ -4,6 +4,7 @@
  */
 package com.sis.integradorasis2026;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -11,13 +12,20 @@ import java.util.Date;
  * @author santi
  */
 public class Opinion {
-    String comentario;
-    double calificacion;
-    Date fecha;
+    private String comentario;
+    private double calificacion;
+    private Date fecha;
     
     public Opinion(String comentario, double calificacion) {
         this.comentario = comentario; 
         this.calificacion = calificacion; 
         this.fecha = new Date();
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        String comentarioSeguro = comentario == null ? "(sin comentario)" : comentario;
+        return String.format("%.1f/5 - %s (%s)", calificacion, comentarioSeguro, formato.format(fecha));
     }
 }

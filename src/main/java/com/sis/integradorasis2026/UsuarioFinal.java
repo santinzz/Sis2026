@@ -15,6 +15,7 @@ import java.util.List;
 public class UsuarioFinal extends Usuario {
     private String nick;
     private Date fechaAlta;
+    private Cuenta cuenta;
     private List<Servicio> serviciosBrindados;
     private List<Servicio> serviciosRecibidos;
     
@@ -25,6 +26,7 @@ public class UsuarioFinal extends Usuario {
         this.fechaAlta = fechaAlta;
         this.serviciosBrindados = new ArrayList<>();
         this.serviciosRecibidos = new ArrayList<>();
+        this.cuenta = new Cuenta();
     }
     
     public String GetNick()
@@ -35,5 +37,10 @@ public class UsuarioFinal extends Usuario {
     public Date GetFechaAlta()
     {
         return fechaAlta;
+    }
+
+    public Cuenta GetCuenta()
+    {
+        return cuenta;
     }
 }
