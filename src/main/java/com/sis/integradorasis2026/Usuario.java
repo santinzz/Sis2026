@@ -4,6 +4,8 @@
  */
 package com.sis.integradorasis2026;
 
+import java.util.Locale;
+
 abstract public class Usuario {
     private String nombre;
     private String apellidos;
@@ -19,10 +21,18 @@ abstract public class Usuario {
         this.apellidos = apellidos;
         this.direccion = direccion;
         this.telefonoContacto = telefonoContacto;
-        this.email = email;
+        this.email = NormalizarEmail(email);
         this.contrasena = contrasena;
         this.tipoUsuario = tipoUsuario;
     } 
+
+    public static String NormalizarEmail(String email)
+    {
+        if (email == null) {
+            return "";
+        }
+        return email.trim().toLowerCase(Locale.ROOT);
+    }
     
     public String GetNombre()
     {
@@ -39,7 +49,7 @@ abstract public class Usuario {
         return apellidos;
     }
     
-    public void SetApellidos()
+    public void SetApellidos(String apellidos)
     {
         this.apellidos = apellidos;
     }
@@ -49,7 +59,7 @@ abstract public class Usuario {
         return direccion;
     }
     
-    public void SetDireccion()
+    public void SetDireccion(Direccion direccion)
     {
         this.direccion = direccion;
     }
@@ -71,7 +81,7 @@ abstract public class Usuario {
     
     public void SetEmail(String email)
     {
-        this.email = email;
+        this.email = NormalizarEmail(email);
     }
     
     public boolean CompararContrasena(String contrasena) {
@@ -83,14 +93,14 @@ abstract public class Usuario {
         return tipoUsuario;
     }
     
-    public void SetTipoUsuario()
+    public void SetTipoUsuario(TipoUsuario tipoUsuario)
     {
         this.tipoUsuario = tipoUsuario;
     }
     
     public boolean Autenticar(String email, String contrasena) 
     {
-        boolean esEmailCorrecto = GetEmail().equals(email);
+        boolean esEmailCorrecto = GetEmail().equals(NormalizarEmail(email));
         return esEmailCorrecto && CompararContrasena(contrasena);
     }
 }

@@ -12,66 +12,23 @@ import java.util.List;
  * @author santi
  */
 public class SistemaSIS {
-    private List<Usuario> usuarios;
-    private List<Servicio> servicios;
+    private GestorUsuarios gestorUsuarios;
+    private GestorServicios gestorServicios;
     
     public SistemaSIS()
     {
-        this.usuarios = new ArrayList<>();
+        this.gestorUsuarios = new GestorUsuarios();
+        this.gestorServicios = new GestorServicios();
     }
-    
-    public void RegistrarUsuario(Usuario usuario) 
+
+    public GestorUsuarios GetGestorUsuarios()
     {
-        usuarios.add(usuario);
-        System.out.println("Usuario registrado correctamente: " + usuario.GetEmail());
+        return gestorUsuarios;
     }
-    
-    public void EliminarUsuario(String email)
+
+    public GestorServicios GetGestorServicios()
     {
-        if (usuarios.removeIf(usuario -> usuario.GetEmail().equals(email))) {
-            System.out.println("Usuario con correo: " + email + " eliminado exitosamente.");
-        } else {
-            System.out.println("Usuario con correo: " + email + " no encontrado");
-        }
+        return gestorServicios;
     }
-    
-    public Usuario BuscarUsuario(String email) 
-    {
-        for (Usuario usuario : usuarios) 
-        {
-            if (usuario.GetEmail().equals(email)) 
-            {
-                return usuario;
-            }
-        }
-        return null;
-    }
-    
-    public void IniciarSesion(String email, String contrasena) {
-        for (Usuario usuario : usuarios)
-        {
-            if (usuario.Autenticar(email, contrasena)) 
-            {
-                if (usuario instanceof Administrador) 
-                {
-                    System.out.println("Acceso concedido: PANEL DE CONTROL ADMINISTRADOR");
-                } 
-                else 
-                {
-                    System.out.println("Acceso concedido: PANEL DE USUARIO");
-                }
-                Sesion.GetInstancia().Login(usuario);
-                return;
-            }
-        }
-        System.out.println("Credenciales no validas");
-    }
-    
-    public void CerrarSesion() {
-        if (Sesion.GetInstancia().EstaLogeado()) {
-            Sesion.GetInstancia().Logout();
-        } else {
-            throw new IllegalStateException("No hay una sesion activa para cerrar");
-        }
-    }
+
 }

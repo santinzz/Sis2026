@@ -6,6 +6,8 @@ package com.sis.integradorasis2026;
 
 import java.util.List;
 import com.sis.integradorasis2026.utils.Menu;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -15,10 +17,18 @@ import java.util.Scanner;
  */
 public class IntegradoraSIS2026 {
     static Scanner lector = new Scanner(System.in);
+    private static final List<String> CATEGORIAS_DEFAULT = Arrays.asList(
+        "Hogar",
+        "Tecnologia",
+        "Educacion",
+        "Salud",
+        "Transporte",
+        "Eventos"
+    );
 
     public static void main(String[] args) {
         SistemaSIS sistema = new SistemaSIS();
-        sistema.RegistrarUsuario(
+        sistema.GetGestorUsuarios().RegistrarUsuario(
                 new UsuarioFinal(
                         "hola", 
                         "tilin dios", 
@@ -54,16 +64,16 @@ public class IntegradoraSIS2026 {
                         System.out.print("Ingrese su contrasena:= ");
                         String contrasena = lector.nextLine();
                         
-                        if (sistema.BuscarUsuario(correo) != null)
+                        if (sistema.GetGestorUsuarios().BuscarUsuario(correo) != null)
                         {
-                            sistema.IniciarSesion(correo, contrasena);
+                            sistema.GetGestorUsuarios().IniciarSesion(correo, contrasena);
                         }
                         break;
                     }
                     case 2: 
                     {
                         Usuario usuario = PedirUsuario();
-                        sistema.RegistrarUsuario(usuario);
+                        sistema.GetGestorUsuarios().RegistrarUsuario(usuario);
                         System.out.println("Usuario " + usuario.GetEmail() + " creado exitosamente");
                         break;
                     }
@@ -83,7 +93,7 @@ public class IntegradoraSIS2026 {
                     {
                         System.out.println("***** PANEL USUARIO *****");
                         System.out.println("Usuario: " + ((UsuarioFinal) usuario).GetNick());
-                        System.out.println("1. Catalago servicios");
+                        System.out.println("1. Catalogo servicios");
                         System.out.println("2. Mi perfil");
                         System.out.println("3. Cerrar sesion");
                         System.out.print("Ingrese una opcion:= ");
@@ -97,8 +107,7 @@ public class IntegradoraSIS2026 {
                         switch (opcion)
                         {
                             case 1: {
-                                Menu menuServicios = new Menu(60)
-                                        .Titulo("Catalogo servicios disponibles");
+                                MostrarCatalogo(sistema.GetGestorServicios(), lector);
                                 break;
                             }
                             case 2: {
@@ -166,12 +175,187 @@ public class IntegradoraSIS2026 {
         System.out.print("Contrasena:= ");
         String contrasena = lector.nextLine();
 
-        System.out.print("Tipo usuario (Administrador | Usuario final) :=");
-        String tipoUsuarioString = lector.nextLine();
-
         System.out.print("Ingrese su nick:= ");
         String nick = lector.nextLine();
 
         return new UsuarioFinal(nombre, apellidos, direccion, telefonoContacto, correoElectronico, contrasena, nick, new Date());
+    }
+
+    private static void MostrarCatalogo(GestorServicios gestorServicios, Scanner lector) {
+        CargarServiciosEjemploSiVacio(gestorServicios);
+
+        while (true) {
+            Menu menuCatalogo = new Menu(50)
+                .Titulo("Catalogo de servicios")
+                .AgregarCampo("Ver por categoria")
+                .AgregarCampo("Ver todos")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+
+            int opcion = menuCatalogo.MostrarYLeer(lector);
+            switch (opcion) {
+                case 1:
+                    MostrarCatalogoPorCategoria(gestorServicios, lector);
+                    break;
+                case 2:
+                    MostrarCatalogoTodos(gestorServicios, lector);
+                    break;
+                case 3:
+                    return;
+            }
+        }
+    }
+
+    private static void MostrarCatalogoPorCategoria(GestorServicios gestorServicios, Scanner lector) {
+        Menu menuCategorias = new Menu(50)
+            .Titulo("Categorias")
+            .Peticion("Seleccione una categoria:= ");
+
+        for (String categoria : CATEGORIAS_DEFAULT) {
+            menuCategorias.AgregarCampo(categoria);
+        }
+
+        int opcion = menuCategorias.MostrarYLeer(lector);
+        String categoriaSeleccionada = CATEGORIAS_DEFAULT.get(opcion - 1);
+        List<Servicio> filtrados = FiltrarServiciosPorCategoria(gestorServicios.GetServicios(), categoriaSeleccionada);
+        MostrarListaServicios(filtrados, lector, "Servicios - " + categoriaSeleccionada);
+    }
+
+    private static void MostrarCatalogoTodos(GestorServicios gestorServicios, Scanner lector) {
+        List<Servicio> servicios = gestorServicios.GetServicios();
+        MostrarListaServicios(servicios, lector, "Todos los servicios");
+    }
+
+    private static void MostrarListaServicios(List<Servicio> servicios, Scanner lector, String titulo) {
+        if (servicios.isEmpty()) {
+            System.out.println("No hay servicios disponibles en este catalogo.");
+            return;
+        }
+
+        Menu menuServicios = new Menu(80)
+            .Titulo(titulo)
+            .Peticion("Seleccione un servicio:= ");
+
+        for (Servicio servicio : servicios) {
+            menuServicios.AgregarCampo(servicio.InfoResumida());
+        }
+        menuServicios.AgregarCampo("Volver");
+
+        int opcion = menuServicios.MostrarYLeer(lector);
+        if (opcion == servicios.size() + 1) {
+            return;
+        }
+
+        Servicio seleccionado = servicios.get(opcion - 1);
+        System.out.println(seleccionado.InfoAll());
+        System.out.print("Presione Enter para volver...");
+        lector.nextLine();
+    }
+
+    private static List<Servicio> FiltrarServiciosPorCategoria(List<Servicio> servicios, String categoria) {
+        String categoriaNormalizada = NormalizarCategoria(categoria);
+        List<Servicio> filtrados = new ArrayList<>();
+
+        for (Servicio servicio : servicios) {
+            for (String tipo : servicio.GetTipos()) {
+                if (NormalizarCategoria(tipo).equals(categoriaNormalizada)) {
+                    filtrados.add(servicio);
+                    break;
+                }
+            }
+        }
+
+        return filtrados;
+    }
+
+    private static String NormalizarCategoria(String categoria) {
+        if (categoria == null) {
+            return "";
+        }
+        return categoria.trim().toLowerCase();
+    }
+
+    private static void CargarServiciosEjemploSiVacio(GestorServicios gestorServicios) {
+        if (!gestorServicios.GetServicios().isEmpty()) {
+            return;
+        }
+
+        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+            "Limpieza de hogar express",
+            "Limpieza basica de habitaciones y areas comunes.",
+            120.0,
+            Complejidad.BAJA,
+            new Ubicacion("Monclova", "Centro"),
+            Horario.MANANA,
+            "Todo publico",
+            Arrays.asList("Hogar"),
+            4.3
+        ));
+
+        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+            "Soporte tecnico basico",
+            "Revision de equipo, limpieza de software y ajustes de rendimiento.",
+            200.0,
+            Complejidad.MEDIA,
+            new Ubicacion("Monclova", "Industrial"),
+            Horario.TARDE,
+            "Todo publico",
+            Arrays.asList("Tecnologia"),
+            4.6
+        ));
+
+        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+            "Clases de matematicas",
+            "Asesoria para nivel secundaria y preparatoria.",
+            150.0,
+            Complejidad.MEDIA_ALTA,
+            new Ubicacion("Monclova", "Universidad"),
+            Horario.MEDIODIA,
+            "12+",
+            Arrays.asList("Educacion"),
+            4.8
+        ));
+
+        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+            "Traslado al aeropuerto",
+            "Servicio de traslado seguro con reservacion previa.",
+            300.0,
+            Complejidad.BAJA_MEDIA,
+            new Ubicacion("Monclova", "Norte"),
+            Horario.NOCHE,
+            "Todo publico",
+            Arrays.asList("Transporte"),
+            4.2
+        ));
+
+        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+            "Cobertura fotografica de eventos",
+            "Sesion fotografica y edicion basica incluida.",
+            500.0,
+            Complejidad.ALTA,
+            new Ubicacion("Monclova", "Centro"),
+            Horario.TARDE,
+            "Todo publico",
+            Arrays.asList("Eventos", "Tecnologia"),
+            4.7
+        ));
+    }
+
+    private static Servicio CrearServicioEjemplo(
+        String nombre,
+        String descripcion,
+        double precioHora,
+        Complejidad complejidad,
+        Ubicacion ubicacion,
+        Horario horario,
+        String edadRecomendada,
+        List<String> categorias,
+        double calificacion
+    ) {
+        Servicio servicio = new Servicio(nombre, precioHora, complejidad, ubicacion, horario, edadRecomendada);
+        servicio.SetDescripcion(descripcion);
+        servicio.SetTipos(new ArrayList<>(categorias));
+        servicio.SetCalificacionPromedio(calificacion);
+        return servicio;
     }
 }
