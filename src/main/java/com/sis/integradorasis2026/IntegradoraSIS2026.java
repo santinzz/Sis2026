@@ -85,7 +85,6 @@ public class IntegradoraSIS2026 {
                 if (opcion == 3) break;
             } else
             {
-                
                 while (true) {
                     Usuario usuario = Sesion.GetInstancia().GetUsuarioActual();
 
@@ -95,7 +94,9 @@ public class IntegradoraSIS2026 {
                         System.out.println("Usuario: " + ((UsuarioFinal) usuario).GetNick());
                         System.out.println("1. Catalogo servicios");
                         System.out.println("2. Mi perfil");
-                        System.out.println("3. Cerrar sesion");
+                        System.out.println("3. Editar perfil");
+                        System.out.println("4. Eliminar cuenta");
+                        System.out.println("5. Cerrar sesion");
                         System.out.print("Ingrese una opcion:= ");
                         if (!lector.hasNextInt()) {
                             System.out.println("");
@@ -107,23 +108,30 @@ public class IntegradoraSIS2026 {
                         switch (opcion)
                         {
                             case 1: {
-                                MostrarCatalogo(sistema.GetGestorServicios(), lector);
+                                MostrarCatalogo(sistema.GetGestorServicios(), lector, sistema);
                                 break;
                             }
                             case 2: {
-                                Menu menuUsuario = new Menu(60)
-                                        .Titulo("Informacion usuario")
-                                        .AgregarCampo("Nombre: " + usuario.GetNombre() + " " + usuario.GetApellidos())
-                                        .AgregarCampo("Direccion: " + usuario.GetDireccion())
-                                        .AgregarCampo("Telefono contacto: " + usuario.GetTelefonoContacto())
-                                        .AgregarCampo("Correo electronico: " + usuario.GetEmail())
-                                        .AgregarCampo("Tipo usuario: " + usuario.GetTipoUsuario())
-                                        .AgregarCampo("Nickname: " + ((UsuarioFinal) usuario).GetNick())
-                                        .AgregarCampo("Fecha Alta: " + ((UsuarioFinal) usuario).GetFechaAlta());
-                                System.out.println(menuUsuario.Construir(false));
+                                MenuPerfilUsuario((UsuarioFinal) usuario, lector);
                                 break;
                             }
                             case 3: {
+                                MenuEditarPerfil((UsuarioFinal) usuario, lector);
+                                break;
+                            }
+                            case 4: {
+                                System.out.println("¿Está seguro que desea eliminar su cuenta? Esta acción no se puede deshacer. (s/n)");
+                                System.out.println("Se eliminara la cuenta y se cerrara la sesion");
+                                System.out.print("Ingrese su respuesta:= ");
+                                String confirmacion = lector.nextLine();
+                                if (confirmacion.equalsIgnoreCase("s")) {
+                                    System.out.println("Eliminando cuenta");
+                                    sistema.GetGestorUsuarios().EliminarUsuario(usuario.GetEmail());
+                                } else {
+                                    System.out.println("Eliminación cancelada");
+                                }
+                            }
+                            case 5: {
                                 System.out.println("Cerrando sesion");
                                 Sesion.GetInstancia().Logout();
                                 break;
@@ -131,7 +139,7 @@ public class IntegradoraSIS2026 {
 
                         }
                         
-                        if (opcion == 3) break;
+                        if (opcion == 4) break;
                     } else if (usuario instanceof Administrador)
                     {
                         System.out.println("***** PANEL ADMINISTRADOR *****");
@@ -141,6 +149,74 @@ public class IntegradoraSIS2026 {
                         break;
                     }
                 }
+            }
+        }
+    }
+
+    private static void MenuPerfilUsuario(UsuarioFinal usuario, Scanner lector) {
+        Menu menuUsuario = new Menu(60)
+                .Titulo("Informacion usuario")
+                .AgregarCampo("Nombre: " + usuario.GetNombre() + " " + usuario.GetApellidos())
+                .AgregarCampo("Direccion: " + usuario.GetDireccion())
+                .AgregarCampo("Telefono contacto: " + usuario.GetTelefonoContacto())
+                .AgregarCampo("Correo electronico: " + usuario.GetEmail())
+                .AgregarCampo("Tipo usuario: " + usuario.GetTipoUsuario())
+                .AgregarCampo("Nickname: " + usuario.GetNick())
+                .AgregarCampo("Fecha Alta: " + usuario.GetFechaAlta());
+        System.out.println(menuUsuario.Construir(false));
+    }
+
+    private static void MenuEditarPerfil(UsuarioFinal usuario, Scanner lector) {
+        Menu menuUsuario = new Menu(60)
+                .Titulo("Editar perfil")
+                .AgregarCampo("1. Cambiar nombre")
+                .AgregarCampo("2. Cambiar direccion")
+                .AgregarCampo("3. Cambiar telefono contacto")
+                .AgregarCampo("4. Cambiar contrasena")
+                .AgregarCampo("5. Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcionEdicion = menuUsuario.MostrarYLeer(lector);
+        switch (opcionEdicion) {
+            case 1: {
+                System.out.print("Ingrese nuevo nombre:= ");
+                String nuevoNombre = lector.nextLine();
+                usuario.SetNombre(nuevoNombre);
+                System.out.println("Nombre actualizado correctamente"); 
+                break;
+            }
+            case 2: {
+                System.out.println("Ingrese nueva direccion");
+                System.out.print("Calle:= ");
+                String calle = lector.nextLine();
+                System.out.print("Numero:= ");
+                int numero = Integer.parseInt(lector.nextLine());
+                System.out.print("Ciudad:= ");
+                String ciudad = lector.nextLine();
+                System.out.print("Estado:= ");
+                String estado = lector.nextLine();
+                System.out.print("Codigo postal:= ");
+                int codigoPostal = Integer.parseInt(lector.nextLine());
+                Direccion nuevaDireccion = new Direccion(calle, numero, ciudad, estado, codigoPostal);
+                usuario.SetDireccion(nuevaDireccion);
+                System.out.println("Direccion actualizada correctamente"); 
+                break;
+            }
+            case 3: {
+                System.out.print("Ingrese nuevo telefono contacto:= ");
+                String nuevoTelefono = lector.nextLine();
+                usuario.SetTelefonoContacto(nuevoTelefono);
+                System.out.println("Telefono contacto actualizado correctamente"); 
+                break;
+            }
+            case 4: {
+                System.out.print("Ingrese nueva contrasena:= ");
+                String nuevaContrasena = lector.nextLine();
+                usuario.SetContrasena(nuevaContrasena);
+                System.out.println("Contrasena actualizada correctamente"); 
+                break;
+            }
+            case 5: {
+                break;
             }
         }
     }
@@ -181,8 +257,8 @@ public class IntegradoraSIS2026 {
         return new UsuarioFinal(nombre, apellidos, direccion, telefonoContacto, correoElectronico, contrasena, nick, new Date());
     }
 
-    private static void MostrarCatalogo(GestorServicios gestorServicios, Scanner lector) {
-        CargarServiciosEjemploSiVacio(gestorServicios);
+    private static void MostrarCatalogo(GestorServicios gestorServicios, Scanner lector, SistemaSIS sistema) {
+        CargarServiciosEjemploSiVacio(gestorServicios, sistema);
 
         while (true) {
             Menu menuCatalogo = new Menu(50)
@@ -275,10 +351,12 @@ public class IntegradoraSIS2026 {
         return categoria.trim().toLowerCase();
     }
 
-    private static void CargarServiciosEjemploSiVacio(GestorServicios gestorServicios) {
+    private static void CargarServiciosEjemploSiVacio(GestorServicios gestorServicios, SistemaSIS sistema) {
         if (!gestorServicios.GetServicios().isEmpty()) {
             return;
         }
+
+        UsuarioFinal proveedorEjemplo = (UsuarioFinal) sistema.GetGestorUsuarios().BuscarUsuario("santiagogonuz@gmail.com");
 
         gestorServicios.RegistrarServicio(CrearServicioEjemplo(
             "Limpieza de hogar express",
@@ -289,7 +367,8 @@ public class IntegradoraSIS2026 {
             Horario.MANANA,
             "Todo publico",
             Arrays.asList("Hogar"),
-            4.3
+            4.3,
+            proveedorEjemplo
         ));
 
         gestorServicios.RegistrarServicio(CrearServicioEjemplo(
@@ -301,7 +380,8 @@ public class IntegradoraSIS2026 {
             Horario.TARDE,
             "Todo publico",
             Arrays.asList("Tecnologia"),
-            4.6
+            4.6,
+            proveedorEjemplo
         ));
 
         gestorServicios.RegistrarServicio(CrearServicioEjemplo(
@@ -313,7 +393,8 @@ public class IntegradoraSIS2026 {
             Horario.MEDIODIA,
             "12+",
             Arrays.asList("Educacion"),
-            4.8
+            4.8,
+            proveedorEjemplo
         ));
 
         gestorServicios.RegistrarServicio(CrearServicioEjemplo(
@@ -325,7 +406,8 @@ public class IntegradoraSIS2026 {
             Horario.NOCHE,
             "Todo publico",
             Arrays.asList("Transporte"),
-            4.2
+            4.2,
+            proveedorEjemplo
         ));
 
         gestorServicios.RegistrarServicio(CrearServicioEjemplo(
@@ -337,7 +419,8 @@ public class IntegradoraSIS2026 {
             Horario.TARDE,
             "Todo publico",
             Arrays.asList("Eventos", "Tecnologia"),
-            4.7
+            4.7,
+            proveedorEjemplo
         ));
     }
 
@@ -350,9 +433,10 @@ public class IntegradoraSIS2026 {
         Horario horario,
         String edadRecomendada,
         List<String> categorias,
-        double calificacion
+        double calificacion,
+        UsuarioFinal proveedor
     ) {
-        Servicio servicio = new Servicio(nombre, precioHora, complejidad, ubicacion, horario, edadRecomendada);
+        Servicio servicio = new Servicio(nombre, precioHora, complejidad, ubicacion, horario, edadRecomendada, proveedor);
         servicio.SetDescripcion(descripcion);
         servicio.SetTipos(new ArrayList<>(categorias));
         servicio.SetCalificacionPromedio(calificacion);

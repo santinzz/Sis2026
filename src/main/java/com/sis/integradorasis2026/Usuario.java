@@ -103,4 +103,9 @@ abstract public class Usuario {
         boolean esEmailCorrecto = GetEmail().equals(NormalizarEmail(email));
         return esEmailCorrecto && CompararContrasena(contrasena);
     }
+
+    public void SetContrasena(String contrasena)
+    {
+        this.contrasena = contrasena;
+    }
 }
