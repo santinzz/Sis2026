@@ -15,32 +15,21 @@ import java.util.List;
 public class UsuarioFinal extends Usuario {
     private String nick;
     private Date fechaAlta;
-    private Cuenta cuenta;
-    private List<Servicio> serviciosBrindados;
-    private List<Servicio> serviciosRecibidos;
-    
-    public UsuarioFinal(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, String nick, Date fechaAlta) 
+   
+    public UsuarioFinal(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, String nick, Date fechaAlta)
     {
         super(nombre, apellidos, direccion, telefonoContacto, email, contrasena, TipoUsuario.USUARIO_FINAL);
         this.nick = nick;
         this.fechaAlta = fechaAlta;
-        this.serviciosBrindados = new ArrayList<>();
-        this.serviciosRecibidos = new ArrayList<>();
-        this.cuenta = new Cuenta();
     }
-    
+   
     public String GetNick()
     {
         return nick;
     }
-    
+   
     public Date GetFechaAlta()
     {
         return fechaAlta;
-    }
-
-    public Cuenta GetCuenta()
-    {
-        return cuenta;
     }
 }

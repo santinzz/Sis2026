@@ -79,4 +79,8 @@ public class GestorUsuarios {
             throw new IllegalStateException("No hay una sesion activa para cerrar");
         }
     }
+
+    public List<Usuario> GetUsuarios() {
+        return usuarios;
+    }
 }

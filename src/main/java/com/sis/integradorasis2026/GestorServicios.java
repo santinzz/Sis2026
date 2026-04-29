@@ -3,6 +3,8 @@ package com.sis.integradorasis2026;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sis.integradorasis2026.utils.Normalizamiento;
+
 public class GestorServicios {
     private List<Servicio> servicios;
 
@@ -29,6 +31,21 @@ public class GestorServicios {
             }
         }
         return null;
+    }
+
+    public static List<Servicio> FiltrarServiciosPorCategoria(List<Servicio> servicios, CategoriaServicio categoria) {
+        List<Servicio> filtrados = new ArrayList<>();
+ 
+        for (Servicio servicio : servicios) {
+            for (CategoriaServicio tipo : servicio.GetTipos()) {
+                if (tipo == categoria) {
+                    filtrados.add(servicio);
+                    break;
+                }
+            }
+        }
+ 
+        return filtrados;
     }
     
 }

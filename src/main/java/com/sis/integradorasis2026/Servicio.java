@@ -14,17 +14,17 @@ import java.util.List;
 public class Servicio {
     private String nombre;
     private String descripcion;
-    private List<String> tipos;
+    private List<CategoriaServicio> tipos;
     private Ubicacion ubicacion;
     private double precioHora;
     private Complejidad complejidad;
     private Horario horarioRealizacion;
     private String edadRecomendada;
     private double calificacionPromedio;
-    private List<Opinion> opiniones;
-    private UsuarioFinal proveedor;
+        private List<Opinion> opiniones;
+        private Usuario proveedor;
    
-    public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, UsuarioFinal proveedor) {
+    public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, Usuario proveedor) {
         this.nombre = nombre;
         this.precioHora = precioHora;
         this.complejidad = complejidad;
@@ -33,6 +33,21 @@ public class Servicio {
         this.opiniones = new ArrayList<>();
         this.horarioRealizacion = horarioRealizacion;
         this.edadRecomendada = edadRecomendada;
+        this.proveedor = proveedor;
+    }
+
+    // Todos los atributos constructor
+    public Servicio(String nombre, String descripcion, List<CategoriaServicio> tipos, Ubicacion ubicacion, double precioHora, Complejidad complejidad, Horario horarioRealizacion, String edadRecomendada, double calificacionPromedio, List<Opinion> opiniones, Usuario proveedor) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.tipos = tipos != null ? tipos : new ArrayList<>();
+        this.ubicacion = ubicacion;
+        this.precioHora = precioHora;
+        this.complejidad = complejidad;
+        this.horarioRealizacion = horarioRealizacion;
+        this.edadRecomendada = edadRecomendada;
+        this.calificacionPromedio = calificacionPromedio;
+        this.opiniones = opiniones != null ? opiniones : new ArrayList<>();
         this.proveedor = proveedor;
     }
  
@@ -56,12 +71,12 @@ public class Servicio {
         this.descripcion = descripcion;
     }
  
-    public List<String> GetTipos()
+    public List<CategoriaServicio> GetTipos()
     {
         return tipos;
     }
  
-    public void SetTipos(List<String> tipos)
+    public void SetTipos(List<CategoriaServicio> tipos)
     {
         this.tipos = tipos;
     }
@@ -156,7 +171,7 @@ public class Servicio {
         return estrellas.toString();
     }
 
-    public UsuarioFinal GetProveedor() {
+    public Usuario GetProveedor() {
         return proveedor;
     }
     
@@ -183,7 +198,7 @@ public class Servicio {
         cadena += "\nDETALLES BASICOS:\n";
         cadena += "├─ Nombre: " + nombre + "\n";
         cadena += "├─ Descripción: " + (descripcion != null ? descripcion : "No disponible") + "\n";
-        cadena += "├─ Tipos: " + (tipos.isEmpty() ? "No especificados" : String.join(", ", tipos)) + "\n";
+        cadena += "├─ Tipos: " + (tipos.isEmpty() ? "No especificados" : tipos.toString()) + "\n";
         cadena += "└─ Edad Recomendada: " + edadRecomendada + "\n";
         cadena += "\nPRECIOS Y COMPLEJIDAD:\n";
         cadena += String.format("├─ Precio por hora: $%.2f%n", precioHora);
