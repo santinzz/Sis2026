@@ -56,7 +56,8 @@ public class GestorUsuarios {
     public void IniciarSesion(String email, String contrasena) {
         String emailNormalizado = Usuario.NormalizarEmail(email);
         Usuario usuario = BuscarUsuarioNormalizado(emailNormalizado);
-        if (usuario != null && usuario.Autenticar(emailNormalizado, contrasena)) 
+        boolean credencialesValidas = usuario != null && usuario.Autenticar(emailNormalizado, contrasena);
+        if (usuario != null && credencialesValidas) 
         {
             if (usuario instanceof Administrador) 
             {
@@ -68,8 +69,9 @@ public class GestorUsuarios {
             }
             Sesion.GetInstancia().Login(usuario);
             return;
+        } else {
+            System.out.println("Credenciales invalidas para el correo: " + emailNormalizado);
         }
-        System.out.println("Credenciales no validas");
     }
     
     public void CerrarSesion() {

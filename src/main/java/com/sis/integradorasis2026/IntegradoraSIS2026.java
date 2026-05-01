@@ -63,13 +63,17 @@ public class IntegradoraSIS2026 {
                         System.out.println("Inicio de sesion");
                         System.out.print("Ingrese su correo electonico:= ");
                         String correo = lector.nextLine();
+
+                        if (sistema.GetGestorUsuarios().BuscarUsuario(correo) == null)
+                        {
+                            System.out.println("El usuario no existe");
+                            break;
+                        }
+
                         System.out.print("Ingrese su contrasena:= ");
                         String contrasena = lector.nextLine();
                        
-                        if (sistema.GetGestorUsuarios().BuscarUsuario(correo) != null)
-                        {
-                            sistema.GetGestorUsuarios().IniciarSesion(correo, contrasena);
-                        }
+                        sistema.GetGestorUsuarios().IniciarSesion(correo, contrasena);
                         break;
                     }
                     case 2:

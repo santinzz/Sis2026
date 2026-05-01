@@ -20,6 +20,7 @@ public class MenuUtils {
                     .Titulo("Catalogo de servicios")
                     .AgregarCampo("Ver por categoria")
                     .AgregarCampo("Ver todos")
+                    .AgregarCampo("Publicar un servicio")
                     .AgregarCampo("Volver")
                     .Peticion("Ingrese una opcion:= ");
 
@@ -32,6 +33,9 @@ public class MenuUtils {
                     MostrarCatalogoTodos(gestorServicios, lector);
                     break;
                 case 3:
+                    PublicarServicio(gestorServicios, lector);
+                    break;
+                case 4:
                     return;
             }
         }
@@ -91,7 +95,7 @@ public class MenuUtils {
         System.out.println(menuUsuario.Construir(false));
     }
 
-        public static void MenuEditarPerfil(UsuarioFinal usuario, Scanner lector) {
+    public static void MenuEditarPerfil(UsuarioFinal usuario, Scanner lector) {
         Menu menuUsuario = new Menu(60)
                 .Titulo("Editar perfil")
                 .AgregarCampo("1. Cambiar nombre")
@@ -144,5 +148,9 @@ public class MenuUtils {
                 break;
             }
         }
+    }
+
+    public static void PublicarServicio(GestorServicios gestorServicios, Scanner lector) {
+        
     }
 }
