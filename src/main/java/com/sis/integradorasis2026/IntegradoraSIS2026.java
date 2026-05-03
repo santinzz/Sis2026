@@ -149,6 +149,8 @@ public class IntegradoraSIS2026 {
                     } else if (usuario instanceof Administrador)
                     {
                         System.out.println("***** PANEL ADMINISTRADOR *****");
+                        System.out.println("1. Catalogo servicios");
+                        System.out.println("2. Catalogo usuarios");
                     } else 
                     {
                         Sesion.GetInstancia().Logout();
