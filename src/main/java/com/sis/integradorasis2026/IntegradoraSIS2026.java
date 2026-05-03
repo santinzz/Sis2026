@@ -4,6 +4,7 @@
 
 package com.sis.integradorasis2026;
 
+import com.sis.integradorasis2026.utils.Color;
 import java.util.List;
 import com.sis.integradorasis2026.utils.Menu;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class IntegradoraSIS2026 {
 
                         if (sistema.GetGestorUsuarios().BuscarUsuario(correo) == null) 
                         {
-                           System.out.println("Usuario no existe intente de nuevo!!");
+                           System.out.println(Color.colorize("El usuario no existe intente denuevo!!", Color.RED));
                            break;
                         }
                         
