@@ -9,7 +9,8 @@ package com.sis.integradorasis2026;
  * @author santi
  */
 public class Administrador extends Usuario {
-    public Administrador(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, TipoUsuario tipoUsuario) {
-        super(nombre, apellidos, direccion, telefonoContacto, email, contrasena, tipoUsuario);
+    public Administrador(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena) 
+    {
+        super(nombre, apellidos, direccion, telefonoContacto, email, contrasena, TipoUsuario.ADMINISTRADOR);
     }
 }

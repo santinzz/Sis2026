@@ -22,9 +22,9 @@ public class Servicio {
     private String edadRecomendada;
     private double calificacionPromedio;
     private List<Opinion> opiniones;
-    private UsuarioFinal proveedor;
+    private Usuario proveedor;
    
-    public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, UsuarioFinal proveedor) {
+    public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, Usuario proveedor) {
         this.nombre = nombre;
         this.precioHora = precioHora;
         this.complejidad = complejidad;
@@ -156,7 +156,7 @@ public class Servicio {
         return estrellas.toString();
     }
 
-    public UsuarioFinal GetProveedor() {
+    public Usuario GetProveedor() {
         return proveedor;
     }
     

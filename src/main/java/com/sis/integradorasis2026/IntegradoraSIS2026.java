@@ -42,6 +42,16 @@ public class IntegradoraSIS2026 {
                             "santinzz", 
                                 new Date()
                 ));
+        sistema.GetGestorUsuarios().RegistrarUsuario(
+            new Administrador(
+                "Admin", 
+                "Principal", 
+                new Direccion("Central", 1, "Monclova", "Coahuila", 25700), 
+                "8660000000", 
+                "admin@sys",
+                "admin123"
+            )
+        );
         System.out.println("***** Sistema intercambio de servicios 2026 *****");
         
         while (true)
@@ -150,8 +160,91 @@ public class IntegradoraSIS2026 {
                     } else if (usuario instanceof Administrador)
                     {
                         System.out.println("***** PANEL ADMINISTRADOR *****");
-                        System.out.println("1. Catalogo servicios");
-                        System.out.println("2. Catalogo usuarios");
+                        System.out.println("1. Servicios");
+                        System.out.println("2. Usuarios");
+                        System.out.println("3. Reportes");
+                        int opcionAdmin = Integer.parseInt(lector.nextLine());
+
+                        switch (opcionAdmin)
+                        {
+                            case 1 -> {
+                                System.out.println("Gestion de servicios");
+                                System.out.println("1. Consulta servicios");
+                                System.out.println("2. Alta de servicio");
+                                System.out.println("3. Baja de servicio");
+                                System.out.println("4. Modificar servicio");
+                                System.out.println("5. Verificar publicaciones de servicios");
+
+                                int opcionServicios = Integer.parseInt(lector.nextLine());
+
+                                switch (opcionServicios) {
+                                    case 1 -> {
+                                        System.out.println(Color.colorize("Consulta de servicios", Color.CYAN));
+                                        // Lógica para consultar servicios
+                                        List<Servicio> servicios = sistema.GetGestorServicios().GetServicios();
+
+                                        if (servicios.isEmpty()) {
+                                            System.out.println("No hay servicios registrados.");
+                                        } else {
+                                            for (Servicio servicio : servicios) {
+                                                System.out.println(servicio.InfoResumida());
+                                            }
+                                        }
+                                    }
+                                    case 2 -> {
+                                        System.out.println("Alta de servicio");
+                                        
+                                    }
+                                    case 3 -> {
+                                        System.out.println("Baja de servicio");
+                                        // Lógica para dar de baja un servicio
+                                    }
+                                    case 4 -> {
+                                        System.out.println("Modificar servicio");
+                                        // Lógica para modificar un servicio
+                                    }
+                                    case 5 -> {
+                                        System.out.println("Verificar publicaciones de servicios");
+                                        // Lógica para verificar publicaciones de servicios
+                                    }
+                                }
+                            }
+                            case 2 -> {
+                                System.out.println("Gestion de usuarios");
+                                System.out.println("1. Consulta usuarios");
+                                System.out.println("2. Alta de usuario");
+                                System.out.println("3. Baja de usuario");
+
+                                int opcionUsuarios = Integer.parseInt(lector.nextLine());
+
+
+                            }
+                            case 3 -> {
+                                System.out.println("Gestion de reportes");
+                                System.out.println("Reportes de servicios");
+                                System.out.println("Reportes de usuarios");
+                                int opcionReportes = Integer.parseInt(lector.nextLine());
+                                switch (opcionReportes) {
+                                    case 1 -> {
+                                        System.out.println("Tipos de reportes de servicios");
+                                        System.out.println("1. Servicio por Tipo");
+                                        System.out.println("2. Servicios por Precio");
+                                        System.out.println("3. Servicios por Ciudad");
+                                        System.out.println("4. Servicios por Calificación");
+                                        System.out.println("5. Servicios Mejor Calificados");
+                                        System.out.println("6. Servicios Peor Calificados");
+                                        System.out.println("7. Servicios relacionados con otros servicios");
+                                        int opcionReportesServicios = Integer.parseInt(lector.nextLine());
+                                    }
+                                    case 2 -> {
+                                        System.out.println("Tipos de reportes de usuarios");
+                                        System.out.println("1. Usuarios Mejor Calificados");
+                                        System.out.println("2. Usuarios Peor Calificados");
+                                        int opcionReportesUsuarios = Integer.parseInt(lector.nextLine());
+                                    }
+                                }
+                            }
+                        }
                     } else 
                     {
                         Sesion.GetInstancia().Logout();
