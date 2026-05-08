@@ -109,11 +109,10 @@ public class IntegradoraSIS2026 {
                     {
                         System.out.println("***** PANEL USUARIO *****");
                         System.out.println("Usuario: " + ((UsuarioFinal) usuario).GetNick());
-                        System.out.println("1. Catalogo servicios");
-                        System.out.println("2. Mi perfil");
-                        System.out.println("3. Editar perfil");
-                        System.out.println("4. Eliminar cuenta");
-                        System.out.println("5. Cerrar sesion");
+                        System.out.println("1. Servicios");
+                        System.out.println("2. Pago de Servicios");
+                        System.out.println("3. Mi Perfil");
+                        System.out.println("4. Cerrar sesión");
                         System.out.print("Ingrese una opcion:= ");
                         if (!lector.hasNextInt()) {
                             System.out.println("");
@@ -121,42 +120,87 @@ public class IntegradoraSIS2026 {
                         }
 
                         int opcion = Integer.parseInt(lector.nextLine());
-
-                        switch (opcion)
-                        {
-                            case 1: {
-                                MostrarCatalogo(sistema.GetGestorServicios(), lector, sistema);
-                                break;
-                            }
-                            case 2: {
-                                MenuPerfilUsuario((UsuarioFinal) usuario, lector);
-                                break;
-                            }
-                            case 3: {
-                                MenuEditarPerfil((UsuarioFinal) usuario, lector);
-                                break;
-                            }
-                            case 4: {
-                                System.out.println("¿Está seguro que desea eliminar su cuenta? Esta acción no se puede deshacer. (s/n)");
-                                System.out.println("Se eliminara la cuenta y se cerrara la sesion");
-                                System.out.print("Ingrese su respuesta:= ");
-                                String confirmacion = lector.nextLine();
-                                if (confirmacion.equalsIgnoreCase("s")) {
-                                    System.out.println("Eliminando cuenta");
-                                    sistema.GetGestorUsuarios().EliminarUsuario(usuario.GetEmail());
-                                } else {
-                                    System.out.println("Eliminación cancelada");
+                        switch (opcion) {
+                            case 1:
+                                System.out.println("Menu de Servicios");
+                                System.out.println("1. Alta de servicio");
+                                System.out.println("2. Consulta servicios");
+                                System.out.println("3. Modificar servicio");
+                                System.out.println("4. Baja de servicio");
+                                System.out.println("5. Calificar servicios recibidos");
+                                System.out.println("6. Volver al menú principal");
+                                System.out.println(" Elegir una opción:");
+                                int opcionServicios = Integer.parseInt(lector.nextLine());
+                                switch (opcionServicios)
+                                {
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        MostrarCatalogo(sistema.GetGestorServicios(), lector, sistema);
+                                        break;
+                                    case 3:
+                                        break;
+                                    case 4:
+                                        break;
+                                    case 5:
+                                        break;
+                                    case 6:
+                                        break;
                                 }
-                            }
-                            case 5: {
-                                System.out.println("Cerrando sesion");
+                                
+                                break;
+                            case 2:
+                                System.out.println("Menu de Pago de Servicios");
+                                System.out.println("1. Pagar servicio");
+                                System.out.println("2. Historial de pagos");
+                                System.out.println("3. Volver al menú principal");
+                                System.out.println(" Elegir una opción:");
+                                int opcionPagos = Integer.parseInt(lector.nextLine());
+                                switch (opcionPagos)
+                                {
+                                    case 1:
+                                        break;
+                                    case 2:
+                                        break;
+                                    case 3:
+                                        break;
+                                }
+                            case 3:
+                                System.out.println("Menu de Mi Perfil");
+                                System.out.println("1. Ver informacion de mi perfil");
+                                System.out.println("2. Editar informacion de mi perfil");
+                                System.out.println("3. Eliminar mi cuenta");
+                                System.out.println("4. Volver al menú principal");  
+                                System.out.println(" Elegir una opción:");
+                                int opcionPerfil = Integer.parseInt(lector.nextLine());
+                                switch (opcionPerfil)
+                                {
+                                    case 1:
+                                        MenuPerfilUsuario((UsuarioFinal) usuario, lector);
+                                        break;
+                                    case 2:
+                                        MenuEditarPerfil((UsuarioFinal) usuario, lector);
+                                        break;
+                                    case 3:
+                                        sistema.GetGestorUsuarios().EliminarUsuario(usuario.GetEmail());
+                                        System.out.println("Cuenta eliminada exitosamente");
+                                        break;
+                                    case 4:
+                                        break;
+                                    default:
+                                        break;                                        
+                                }
+                                break;
+                            case 4:
                                 Sesion.GetInstancia().Logout();
                                 break;
-                            }
-
                         }
-                        
-                        if (opcion == 4) break;
+
+
+
+
+
+
                     } else if (usuario instanceof Administrador)
                     {
                         System.out.println("***** PANEL ADMINISTRADOR *****");
