@@ -5,7 +5,9 @@
 package com.sis.integradorasis2026;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -15,17 +17,39 @@ public class Opinion {
     private String comentario;
     private double calificacion;
     private Date fecha;
+    private String autorEmail;
+    private List<String> evidencias;
     
     public Opinion(String comentario, double calificacion) {
-        this.comentario = comentario; 
-        this.calificacion = calificacion; 
+        this(comentario, calificacion, null, new ArrayList<>());
+    }
+
+    public Opinion(String comentario, double calificacion, String autorEmail, List<String> evidencias) {
+        this.comentario = comentario;
+        this.calificacion = calificacion;
+        this.autorEmail = autorEmail;
+        this.evidencias = evidencias == null ? new ArrayList<>() : new ArrayList<>(evidencias);
         this.fecha = new Date();
+    }
+
+    public String GetAutorEmail() {
+        return autorEmail;
+    }
+
+    public double GetCalificacion() {
+        return calificacion;
+    }
+
+    public List<String> GetEvidencias() {
+        return new ArrayList<>(evidencias);
     }
 
     @Override
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         String comentarioSeguro = comentario == null ? "(sin comentario)" : comentario;
-        return String.format("%.1f/5 - %s (%s)", calificacion, comentarioSeguro, formato.format(fecha));
+        String autor = autorEmail == null ? "anonimo" : autorEmail;
+        String evidenciaInfo = evidencias.isEmpty() ? "sin evidencia" : "evidencias: " + evidencias.size();
+        return String.format("%.1f/5 - %s (%s) [%s, %s]", calificacion, comentarioSeguro, formato.format(fecha), autor, evidenciaInfo);
     }
 }

@@ -107,89 +107,23 @@ public class IntegradoraSIS2026 {
 
                     if (usuario instanceof UsuarioFinal)
                     {
-                        System.out.println("***** PANEL USUARIO *****");
-                        System.out.println("Usuario: " + ((UsuarioFinal) usuario).GetNick());
-                        System.out.println("1. Servicios");
-                        System.out.println("2. Pago de Servicios");
-                        System.out.println("3. Mi Perfil");
-                        System.out.println("4. Cerrar sesión");
-                        System.out.print("Ingrese una opcion:= ");
-                        if (!lector.hasNextInt()) {
-                            System.out.println("");
-                            continue;
-                        }
-
-                        int opcion = Integer.parseInt(lector.nextLine());
+                        Menu menuUsuario = new Menu()
+                                .Titulo("Panel usuario")
+                                .AgregarCampo("Servicios")
+                                .AgregarCampo("Pagos y balance")
+                                .AgregarCampo("Mi perfil")
+                                .AgregarCampo("Cerrar sesion")
+                                .Peticion("Ingrese una opcion:= ");
+                        int opcion = menuUsuario.MostrarYLeer(lector);
                         switch (opcion) {
                             case 1:
-                                System.out.println("Menu de Servicios");
-                                System.out.println("1. Alta de servicio");
-                                System.out.println("2. Consulta servicios");
-                                System.out.println("3. Modificar servicio");
-                                System.out.println("4. Baja de servicio");
-                                System.out.println("5. Calificar servicios recibidos");
-                                System.out.println("6. Volver al menú principal");
-                                System.out.println(" Elegir una opción:");
-                                int opcionServicios = Integer.parseInt(lector.nextLine());
-                                switch (opcionServicios)
-                                {
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        MostrarCatalogo(sistema.GetGestorServicios(), lector, sistema);
-                                        break;
-                                    case 3:
-                                        break;
-                                    case 4:
-                                        break;
-                                    case 5:
-                                        break;
-                                    case 6:
-                                        break;
-                                }
-                                
+                                MenuServiciosUsuario((UsuarioFinal) usuario, sistema);
                                 break;
                             case 2:
-                                System.out.println("Menu de Pago de Servicios");
-                                System.out.println("1. Pagar servicio");
-                                System.out.println("2. Historial de pagos");
-                                System.out.println("3. Volver al menú principal");
-                                System.out.println(" Elegir una opción:");
-                                int opcionPagos = Integer.parseInt(lector.nextLine());
-                                switch (opcionPagos)
-                                {
-                                    case 1:
-                                        break;
-                                    case 2:
-                                        break;
-                                    case 3:
-                                        break;
-                                }
+                                MenuPagosUsuario((UsuarioFinal) usuario, sistema);
+                                break;
                             case 3:
-                                System.out.println("Menu de Mi Perfil");
-                                System.out.println("1. Ver informacion de mi perfil");
-                                System.out.println("2. Editar informacion de mi perfil");
-                                System.out.println("3. Eliminar mi cuenta");
-                                System.out.println("4. Volver al menú principal");  
-                                System.out.println(" Elegir una opción:");
-                                int opcionPerfil = Integer.parseInt(lector.nextLine());
-                                switch (opcionPerfil)
-                                {
-                                    case 1:
-                                        MenuPerfilUsuario((UsuarioFinal) usuario, lector);
-                                        break;
-                                    case 2:
-                                        MenuEditarPerfil((UsuarioFinal) usuario, lector);
-                                        break;
-                                    case 3:
-                                        sistema.GetGestorUsuarios().EliminarUsuario(usuario.GetEmail());
-                                        System.out.println("Cuenta eliminada exitosamente");
-                                        break;
-                                    case 4:
-                                        break;
-                                    default:
-                                        break;                                        
-                                }
+                                MenuPerfilUsuarioPrincipal((UsuarioFinal) usuario, sistema);
                                 break;
                             case 4:
                                 Sesion.GetInstancia().Logout();
@@ -203,91 +137,21 @@ public class IntegradoraSIS2026 {
 
                     } else if (usuario instanceof Administrador)
                     {
-                        System.out.println("***** PANEL ADMINISTRADOR *****");
-                        System.out.println("1. Servicios");
-                        System.out.println("2. Usuarios");
-                        System.out.println("3. Reportes");
-                        int opcionAdmin = Integer.parseInt(lector.nextLine());
+                        Menu menuAdmin = new Menu()
+                                .Titulo("Panel administrador")
+                                .AgregarCampo("Servicios")
+                                .AgregarCampo("Usuarios")
+                                .AgregarCampo("Reportes")
+                                .AgregarCampo("Cerrar sesion")
+                                .Peticion("Ingrese una opcion:= ");
+                        int opcionAdmin = menuAdmin.MostrarYLeer(lector);
 
                         switch (opcionAdmin)
                         {
-                            case 1 -> {
-                                System.out.println("Gestion de servicios");
-                                System.out.println("1. Consulta servicios");
-                                System.out.println("2. Alta de servicio");
-                                System.out.println("3. Baja de servicio");
-                                System.out.println("4. Modificar servicio");
-                                System.out.println("5. Verificar publicaciones de servicios");
-
-                                int opcionServicios = Integer.parseInt(lector.nextLine());
-
-                                switch (opcionServicios) {
-                                    case 1 -> {
-                                        System.out.println(Color.colorize("Consulta de servicios", Color.CYAN));
-                                        // Lógica para consultar servicios
-                                        List<Servicio> servicios = sistema.GetGestorServicios().GetServicios();
-
-                                        if (servicios.isEmpty()) {
-                                            System.out.println("No hay servicios registrados.");
-                                        } else {
-                                            for (Servicio servicio : servicios) {
-                                                System.out.println(servicio.InfoResumida());
-                                            }
-                                        }
-                                    }
-                                    case 2 -> {
-                                        System.out.println("Alta de servicio");
-                                        
-                                    }
-                                    case 3 -> {
-                                        System.out.println("Baja de servicio");
-                                        // Lógica para dar de baja un servicio
-                                    }
-                                    case 4 -> {
-                                        System.out.println("Modificar servicio");
-                                        // Lógica para modificar un servicio
-                                    }
-                                    case 5 -> {
-                                        System.out.println("Verificar publicaciones de servicios");
-                                        // Lógica para verificar publicaciones de servicios
-                                    }
-                                }
-                            }
-                            case 2 -> {
-                                System.out.println("Gestion de usuarios");
-                                System.out.println("1. Consulta usuarios");
-                                System.out.println("2. Alta de usuario");
-                                System.out.println("3. Baja de usuario");
-
-                                int opcionUsuarios = Integer.parseInt(lector.nextLine());
-
-
-                            }
-                            case 3 -> {
-                                System.out.println("Gestion de reportes");
-                                System.out.println("Reportes de servicios");
-                                System.out.println("Reportes de usuarios");
-                                int opcionReportes = Integer.parseInt(lector.nextLine());
-                                switch (opcionReportes) {
-                                    case 1 -> {
-                                        System.out.println("Tipos de reportes de servicios");
-                                        System.out.println("1. Servicio por Tipo");
-                                        System.out.println("2. Servicios por Precio");
-                                        System.out.println("3. Servicios por Ciudad");
-                                        System.out.println("4. Servicios por Calificación");
-                                        System.out.println("5. Servicios Mejor Calificados");
-                                        System.out.println("6. Servicios Peor Calificados");
-                                        System.out.println("7. Servicios relacionados con otros servicios");
-                                        int opcionReportesServicios = Integer.parseInt(lector.nextLine());
-                                    }
-                                    case 2 -> {
-                                        System.out.println("Tipos de reportes de usuarios");
-                                        System.out.println("1. Usuarios Mejor Calificados");
-                                        System.out.println("2. Usuarios Peor Calificados");
-                                        int opcionReportesUsuarios = Integer.parseInt(lector.nextLine());
-                                    }
-                                }
-                            }
+                            case 1 -> MenuServiciosAdmin(sistema);
+                            case 2 -> MenuUsuariosAdmin(sistema);
+                            case 3 -> MenuReportesAdmin(sistema);
+                            case 4 -> Sesion.GetInstancia().Logout();
                         }
                     } else 
                     {
@@ -366,6 +230,837 @@ public class IntegradoraSIS2026 {
             }
         }
     }
+
+    private static void MenuPerfilUsuarioPrincipal(UsuarioFinal usuario, SistemaSIS sistema) {
+        Menu menuPerfil = new Menu(60)
+                .Titulo("Mi perfil")
+                .AgregarCampo("Ver informacion de mi perfil")
+                .AgregarCampo("Editar informacion de mi perfil")
+                .AgregarCampo("Eliminar mi cuenta")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcionPerfil = menuPerfil.MostrarYLeer(lector);
+        switch (opcionPerfil) {
+            case 1:
+                MenuPerfilUsuario(usuario, lector);
+                break;
+            case 2:
+                MenuEditarPerfil(usuario, lector);
+                break;
+            case 3:
+                sistema.GetGestorUsuarios().EliminarUsuario(usuario.GetEmail());
+                Sesion.GetInstancia().Logout();
+                System.out.println("Cuenta eliminada exitosamente");
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    private static void MenuServiciosUsuario(UsuarioFinal usuario, SistemaSIS sistema) {
+        Menu menuServicios = new Menu(60)
+                .Titulo("Servicios")
+                .AgregarCampo("Alta de servicio")
+                .AgregarCampo("Consulta servicios")
+                .AgregarCampo("Modificar servicio")
+                .AgregarCampo("Baja de servicio")
+                .AgregarCampo("Calificar servicios recibidos")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuServicios.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1:
+                AltaServicioUsuario(usuario, sistema);
+                break;
+            case 2:
+                Menu menuConsulta = new Menu(60)
+                        .Titulo("Consulta de servicios")
+                        .AgregarCampo("Catalogo publico")
+                        .AgregarCampo("Mis servicios")
+                        .AgregarCampo("Volver")
+                        .Peticion("Ingrese una opcion:= ");
+                int opcionConsulta = menuConsulta.MostrarYLeer(lector);
+                if (opcionConsulta == 1) {
+                    MostrarCatalogo(sistema.GetGestorServicios(), lector, sistema);
+                } else if (opcionConsulta == 2) {
+                    MostrarMisServicios(usuario);
+                }
+                break;
+            case 3:
+                ModificarServicioUsuario(usuario);
+                break;
+            case 4:
+                BajaServicioUsuario(usuario, sistema);
+                break;
+            case 5:
+                CalificarServiciosRecibidos(usuario);
+                break;
+            case 6:
+                break;
+        }
+    }
+
+    private static void MenuPagosUsuario(UsuarioFinal usuario, SistemaSIS sistema) {
+        Menu menuPagos = new Menu(60)
+                .Titulo("Pagos y balance")
+                .AgregarCampo("Pagar servicio")
+                .AgregarCampo("Historial de pagos")
+                .AgregarCampo("Balance y movimientos")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuPagos.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1:
+                ComprarServicio(usuario, sistema);
+                break;
+            case 2:
+                MostrarHistorialPagos(usuario);
+                break;
+            case 3:
+                MenuBalanceUsuario(usuario);
+                break;
+            case 4:
+                break;
+        }
+    }
+
+    private static void MenuBalanceUsuario(UsuarioFinal usuario) {
+        Menu menuBalance = new Menu(60)
+                .Titulo("Balance")
+                .AgregarCampo("Ver saldo")
+                .AgregarCampo("Depositar")
+                .AgregarCampo("Retirar")
+                .AgregarCampo("Ver movimientos")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuBalance.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1:
+                System.out.printf("Saldo actual: $%.2f%n", usuario.GetCuenta().GetSaldo());
+                break;
+            case 2: {
+                double monto = LeerDouble("Monto a depositar:= ");
+                try {
+                    usuario.GetCuenta().Depositar(monto);
+                    System.out.println("Deposito realizado correctamente.");
+                } catch (IllegalArgumentException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                break;
+            }
+            case 3: {
+                double monto = LeerDouble("Monto a retirar:= ");
+                try {
+                    usuario.GetCuenta().Retirar(monto);
+                    System.out.println("Retiro realizado correctamente.");
+                } catch (IllegalArgumentException ex) {
+                    System.out.println(ex.getMessage());
+                }
+                break;
+            }
+            case 4:
+                List<Transaccion> movimientos = usuario.GetCuenta().GetHistorialTransacciones();
+                if (movimientos.isEmpty()) {
+                    System.out.println("No hay movimientos registrados.");
+                } else {
+                    for (Transaccion transaccion : movimientos) {
+                        System.out.println(transaccion.toString());
+                    }
+                }
+                break;
+            case 5:
+                break;
+        }
+    }
+
+    private static void MenuServiciosAdmin(SistemaSIS sistema) {
+        Menu menuServicios = new Menu(60)
+                .Titulo("Gestion de servicios")
+                .AgregarCampo("Consulta servicios")
+                .AgregarCampo("Alta de servicio")
+                .AgregarCampo("Baja de servicio")
+                .AgregarCampo("Modificar servicio")
+                .AgregarCampo("Verificar publicaciones de servicios")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcionServicios = menuServicios.MostrarYLeer(lector);
+        switch (opcionServicios) {
+            case 1:
+                List<Servicio> servicios = sistema.GetGestorServicios().GetServicios();
+                if (servicios.isEmpty()) {
+                    System.out.println("No hay servicios registrados.");
+                } else {
+                    for (Servicio servicio : servicios) {
+                        System.out.println(servicio.InfoResumida());
+                    }
+                }
+                break;
+            case 2:
+                AltaServicioAdmin(sistema);
+                break;
+            case 3:
+                BajaServicioAdmin(sistema);
+                break;
+            case 4:
+                ModificarServicioAdmin(sistema);
+                break;
+            case 5:
+                ValidarServiciosPendientes(sistema);
+                break;
+            case 6:
+                break;
+        }
+    }
+
+    private static void MenuUsuariosAdmin(SistemaSIS sistema) {
+        Menu menuUsuarios = new Menu(60)
+                .Titulo("Gestion de usuarios")
+                .AgregarCampo("Consulta usuarios")
+                .AgregarCampo("Alta de usuario")
+                .AgregarCampo("Baja de usuario")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcionUsuarios = menuUsuarios.MostrarYLeer(lector);
+        switch (opcionUsuarios) {
+            case 1:
+                List<Usuario> usuarios = sistema.GetGestorUsuarios().GetUsuarios();
+                if (usuarios.isEmpty()) {
+                    System.out.println("No hay usuarios registrados.");
+                } else {
+                    for (Usuario usuario : usuarios) {
+                        System.out.println(usuario.GetEmail() + " | " + usuario.GetTipoUsuario());
+                    }
+                }
+                break;
+            case 2:
+                AltaUsuarioAdmin(sistema);
+                break;
+            case 3: {
+                System.out.print("Correo del usuario a eliminar:= ");
+                String correo = lector.nextLine();
+                sistema.GetGestorUsuarios().EliminarUsuario(correo);
+                break;
+            }
+            case 4:
+                break;
+        }
+    }
+
+    private static void MenuReportesAdmin(SistemaSIS sistema) {
+        Menu menuReportes = new Menu(60)
+                .Titulo("Gestion de reportes")
+                .AgregarCampo("Reportes de servicios")
+                .AgregarCampo("Reportes de usuarios")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcionReportes = menuReportes.MostrarYLeer(lector);
+        switch (opcionReportes) {
+            case 1:
+                MenuReportesServicios(sistema);
+                break;
+            case 2:
+                MenuReportesUsuarios(sistema);
+                break;
+            case 3:
+                break;
+        }
+    }
+
+    private static void MenuReportesServicios(SistemaSIS sistema) {
+        Menu menuReportes = new Menu(70)
+                .Titulo("Reportes de servicios")
+                .AgregarCampo("Servicio por Tipo")
+                .AgregarCampo("Servicios por Precio")
+                .AgregarCampo("Servicios por Ciudad")
+                .AgregarCampo("Servicios por Calificacion")
+                .AgregarCampo("Servicios Mejor Calificados")
+                .AgregarCampo("Servicios Peor Calificados")
+                .AgregarCampo("Servicios relacionados")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuReportes.MostrarYLeer(lector);
+        List<Servicio> servicios = sistema.GetGestorServicios().GetServicios();
+        switch (opcion) {
+            case 1: {
+                System.out.print("Ingrese categoria:= ");
+                String categoria = lector.nextLine();
+                List<Servicio> filtrados = Reportes.ServiciosPorCategoria(servicios, categoria);
+                ImprimirServicios(filtrados);
+                break;
+            }
+            case 2: {
+                double min = LeerDouble("Precio minimo:= ");
+                double max = LeerDouble("Precio maximo:= ");
+                List<Servicio> filtrados = Reportes.ServiciosPorPrecio(servicios, min, max);
+                ImprimirServicios(filtrados);
+                break;
+            }
+            case 3: {
+                System.out.print("Ciudad:= ");
+                String ciudad = lector.nextLine();
+                List<Servicio> filtrados = Reportes.ServiciosPorCiudad(servicios, ciudad);
+                ImprimirServicios(filtrados);
+                break;
+            }
+            case 4: {
+                double min = LeerDouble("Calificacion minima:= ");
+                List<Servicio> filtrados = Reportes.ServiciosPorCalificacion(servicios, min);
+                ImprimirServicios(filtrados);
+                break;
+            }
+            case 5: {
+                List<Servicio> top = Reportes.TopServicios(servicios, 5, true);
+                ImprimirServicios(top);
+                break;
+            }
+            case 6: {
+                List<Servicio> worst = Reportes.TopServicios(servicios, 5, false);
+                ImprimirServicios(worst);
+                break;
+            }
+            case 7: {
+                Servicio base = SeleccionarServicio(servicios, "Seleccione un servicio base");
+                if (base != null) {
+                    List<Servicio> relacionados = Reportes.ServiciosRelacionados(base, servicios);
+                    ImprimirServicios(relacionados);
+                }
+                break;
+            }
+            case 8:
+                break;
+        }
+    }
+
+    private static void MenuReportesUsuarios(SistemaSIS sistema) {
+        Menu menuReportes = new Menu(70)
+                .Titulo("Reportes de usuarios")
+                .AgregarCampo("Ultimo servicio brindado")
+                .AgregarCampo("Ultimo servicio recibido")
+                .AgregarCampo("Comentarios hechos por usuario")
+                .AgregarCampo("Usuarios mejor calificados")
+                .AgregarCampo("Usuarios peor calificados")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuReportes.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1: {
+                UsuarioFinal usuario = SeleccionarUsuarioFinal(sistema);
+                if (usuario != null) {
+                    Pago ultimo = Reportes.UltimoPago(usuario.GetPagosRecibidos());
+                    System.out.println(ultimo == null ? "Sin pagos recibidos" : ultimo.toString());
+                }
+                break;
+            }
+            case 2: {
+                UsuarioFinal usuario = SeleccionarUsuarioFinal(sistema);
+                if (usuario != null) {
+                    Pago ultimo = Reportes.UltimoPago(usuario.GetPagosRealizados());
+                    System.out.println(ultimo == null ? "Sin pagos realizados" : ultimo.toString());
+                }
+                break;
+            }
+            case 3: {
+                System.out.print("Correo del usuario:= ");
+                String correo = lector.nextLine();
+                List<Opinion> opiniones = Reportes.ComentariosPorUsuario(sistema.GetGestorServicios().GetServicios(), correo);
+                if (opiniones.isEmpty()) {
+                    System.out.println("No hay comentarios registrados.");
+                } else {
+                    for (Opinion opinion : opiniones) {
+                        System.out.println(opinion.toString());
+                    }
+                }
+                break;
+            }
+            case 4: {
+                List<UsuarioFinal> usuarios = ObtenerUsuariosFinales(sistema);
+                usuarios.sort((a, b) -> Double.compare(CalificacionPromedioUsuario(b), CalificacionPromedioUsuario(a)));
+                ImprimirUsuariosConCalificacion(usuarios);
+                break;
+            }
+            case 5: {
+                List<UsuarioFinal> usuarios = ObtenerUsuariosFinales(sistema);
+                usuarios.sort((a, b) -> Double.compare(CalificacionPromedioUsuario(a), CalificacionPromedioUsuario(b)));
+                ImprimirUsuariosConCalificacion(usuarios);
+                break;
+            }
+            case 6:
+                break;
+        }
+    }
+
+    private static void AltaServicioUsuario(UsuarioFinal usuario, SistemaSIS sistema) {
+        Servicio servicio = CrearServicioInteractivo(usuario, usuario, false);
+        if (servicio == null) {
+            return;
+        }
+        servicio.SetEstadoPublicacion(EstadoServicio.PENDIENTE);
+        sistema.GetGestorServicios().RegistrarServicio(servicio);
+        usuario.AgregarServicioBrindado(servicio);
+        System.out.println("Servicio registrado y enviado a validacion.");
+    }
+
+    private static void ModificarServicioUsuario(UsuarioFinal usuario) {
+        Servicio servicio = SeleccionarServicio(usuario.GetServiciosBrindados(), "Mis servicios");
+        if (servicio == null) {
+            return;
+        }
+        ModificarServicio(servicio, true);
+        System.out.println("Servicio actualizado y enviado a validacion.");
+    }
+
+    private static void BajaServicioUsuario(UsuarioFinal usuario, SistemaSIS sistema) {
+        Servicio servicio = SeleccionarServicio(usuario.GetServiciosBrindados(), "Mis servicios");
+        if (servicio == null) {
+            return;
+        }
+        sistema.GetGestorServicios().EliminarServicio(servicio);
+        usuario.RemoverServicioBrindado(servicio);
+        System.out.println("Servicio eliminado correctamente.");
+    }
+
+    private static void CalificarServiciosRecibidos(UsuarioFinal usuario) {
+        Servicio servicio = SeleccionarServicio(usuario.GetServiciosRecibidos(), "Servicios recibidos");
+        if (servicio == null) {
+            return;
+        }
+        double calificacion = LeerDouble("Calificacion (1-5):= ");
+        System.out.print("Comentario:= ");
+        String comentario = lector.nextLine();
+        System.out.print("Evidencias (rutas separadas por coma, opcional):= ");
+        String evidenciaInput = lector.nextLine();
+        List<String> evidencias = ParsearLista(evidenciaInput);
+        Opinion opinion = new Opinion(comentario, calificacion, usuario.GetEmail(), evidencias);
+        servicio.AgregarOpinion(opinion);
+        System.out.println("Opinion registrada correctamente.");
+    }
+
+    private static void ComprarServicio(UsuarioFinal cliente, SistemaSIS sistema) {
+        List<Servicio> servicios = sistema.GetGestorServicios().GetServiciosAprobados();
+        List<Servicio> disponibles = new ArrayList<>();
+        for (Servicio servicio : servicios) {
+            if (servicio.GetProveedor() != cliente) {
+                disponibles.add(servicio);
+            }
+        }
+        Servicio servicio = SeleccionarServicio(disponibles, "Servicios disponibles para pagar");
+        if (servicio == null) {
+            return;
+        }
+        if (!(servicio.GetProveedor() instanceof UsuarioFinal)) {
+            System.out.println("El proveedor no puede recibir pagos.");
+            return;
+        }
+        UsuarioFinal proveedor = (UsuarioFinal) servicio.GetProveedor();
+        double monto = servicio.GetPrecioHora();
+        try {
+            cliente.GetCuenta().RegistrarPagoSalida(monto, "Pago servicio: " + servicio.GetNombre());
+            proveedor.GetCuenta().RegistrarPagoEntrada(monto, "Pago recibido: " + servicio.GetNombre());
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+        Pago pago = new Pago(cliente, proveedor, servicio, monto);
+        pago.Completar();
+        cliente.RegistrarPagoRealizado(pago);
+        proveedor.RegistrarPagoRecibido(pago);
+        cliente.AgregarServicioRecibido(servicio);
+        if (!proveedor.GetServiciosBrindados().contains(servicio)) {
+            proveedor.AgregarServicioBrindado(servicio);
+        }
+        System.out.println("Pago realizado correctamente.");
+    }
+
+    private static void MostrarHistorialPagos(UsuarioFinal usuario) {
+        System.out.println("Pagos realizados:");
+        List<Pago> realizados = usuario.GetPagosRealizados();
+        if (realizados.isEmpty()) {
+            System.out.println("Sin pagos realizados.");
+        } else {
+            for (Pago pago : realizados) {
+                System.out.println(pago.toString());
+            }
+        }
+        System.out.println("Pagos recibidos:");
+        List<Pago> recibidos = usuario.GetPagosRecibidos();
+        if (recibidos.isEmpty()) {
+            System.out.println("Sin pagos recibidos.");
+        } else {
+            for (Pago pago : recibidos) {
+                System.out.println(pago.toString());
+            }
+        }
+    }
+
+    private static void AltaServicioAdmin(SistemaSIS sistema) {
+        UsuarioFinal proveedor = SeleccionarUsuarioFinal(sistema);
+        if (proveedor == null) {
+            return;
+        }
+        Servicio servicio = CrearServicioInteractivo(proveedor, Sesion.GetInstancia().GetUsuarioActual(), true);
+        if (servicio == null) {
+            return;
+        }
+        servicio.Aprobar();
+        sistema.GetGestorServicios().RegistrarServicio(servicio);
+        proveedor.AgregarServicioBrindado(servicio);
+        System.out.println("Servicio creado y aprobado correctamente.");
+    }
+
+    private static void BajaServicioAdmin(SistemaSIS sistema) {
+        Servicio servicio = SeleccionarServicio(sistema.GetGestorServicios().GetServicios(), "Servicios registrados");
+        if (servicio == null) {
+            return;
+        }
+        sistema.GetGestorServicios().EliminarServicio(servicio);
+        if (servicio.GetProveedor() instanceof UsuarioFinal) {
+            ((UsuarioFinal) servicio.GetProveedor()).RemoverServicioBrindado(servicio);
+        }
+        System.out.println("Servicio eliminado correctamente.");
+    }
+
+    private static void ModificarServicioAdmin(SistemaSIS sistema) {
+        Servicio servicio = SeleccionarServicio(sistema.GetGestorServicios().GetServicios(), "Servicios registrados");
+        if (servicio == null) {
+            return;
+        }
+        ModificarServicio(servicio, false);
+        System.out.println("Servicio actualizado correctamente.");
+    }
+
+    private static void ValidarServiciosPendientes(SistemaSIS sistema) {
+        List<Servicio> pendientes = sistema.GetGestorServicios().GetServiciosPendientes();
+        Servicio servicio = SeleccionarServicio(pendientes, "Servicios pendientes");
+        if (servicio == null) {
+            return;
+        }
+        Menu menu = new Menu(40)
+                .Titulo("Validar servicio")
+                .AgregarCampo("Aprobar")
+                .AgregarCampo("Rechazar")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menu.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1:
+                sistema.GetGestorServicios().AprobarServicio(servicio);
+                System.out.println("Servicio aprobado.");
+                break;
+            case 2:
+                sistema.GetGestorServicios().RechazarServicio(servicio);
+                System.out.println("Servicio rechazado.");
+                break;
+            case 3:
+                break;
+        }
+    }
+
+    private static void AltaUsuarioAdmin(SistemaSIS sistema) {
+        Menu menuTipo = new Menu(40)
+                .Titulo("Tipo de usuario")
+                .AgregarCampo("Administrador")
+                .AgregarCampo("Usuario final")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuTipo.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1: {
+                Administrador admin = PedirAdministrador();
+                sistema.GetGestorUsuarios().RegistrarUsuario(admin);
+                break;
+            }
+            case 2: {
+                UsuarioFinal usuario = PedirUsuario();
+                sistema.GetGestorUsuarios().RegistrarUsuario(usuario);
+                break;
+            }
+            case 3:
+                break;
+        }
+    }
+
+    private static Administrador PedirAdministrador() {
+        System.out.print("Ingrese su nombre:= ");
+        String nombre = lector.nextLine();
+        System.out.print("Ingrese sus apellidos:= ");
+        String apellidos = lector.nextLine();
+        System.out.println("Ingrese su direccion");
+        System.out.print("Calle:= ");
+        String calle = lector.nextLine();
+        System.out.print("Numero:= ");
+        int numero = Integer.parseInt(lector.nextLine());
+        System.out.print("Ciudad:= ");
+        String ciudad = lector.nextLine();
+        System.out.print("Estado:= ");
+        String estado = lector.nextLine();
+        System.out.print("Codigo postal:= ");
+        int codigoPostal = Integer.parseInt(lector.nextLine());
+        Direccion direccion = new Direccion(calle, numero, ciudad, estado, codigoPostal);
+        System.out.print("Telefono contacto:= ");
+        String telefonoContacto = lector.nextLine();
+        System.out.print("Correo electronico:= ");
+        String correoElectronico = lector.nextLine();
+        System.out.print("Contrasena:= ");
+        String contrasena = lector.nextLine();
+        return new Administrador(nombre, apellidos, direccion, telefonoContacto, correoElectronico, contrasena);
+    }
+
+    private static Servicio CrearServicioInteractivo(Usuario proveedor, Usuario creador, boolean aprobado) {
+        System.out.print("Nombre del servicio:= ");
+        String nombre = lector.nextLine();
+        System.out.print("Descripcion:= ");
+        String descripcion = lector.nextLine();
+        double precio = LeerDouble("Precio por hora:= ");
+        Complejidad complejidad = SeleccionarComplejidad();
+        Horario horario = SeleccionarHorario();
+        System.out.print("Ciudad:= ");
+        String ciudad = lector.nextLine();
+        System.out.print("Municipio:= ");
+        String municipio = lector.nextLine();
+        Ubicacion ubicacion = new Ubicacion(ciudad, municipio);
+        System.out.print("Edad recomendada:= ");
+        String edad = lector.nextLine();
+        List<String> categorias = SeleccionarCategorias();
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            System.out.println("Nombre invalido.");
+            return null;
+        }
+
+        Servicio servicio = new Servicio(nombre, precio, complejidad, ubicacion, horario, edad, proveedor);
+        servicio.SetDescripcion(descripcion);
+        servicio.SetTipos(categorias);
+        servicio.SetCreador(creador);
+        if (aprobado) {
+            servicio.Aprobar();
+        } else {
+            servicio.SetEstadoPublicacion(EstadoServicio.PENDIENTE);
+        }
+        return servicio;
+    }
+
+    private static void ModificarServicio(Servicio servicio, boolean requiereValidacion) {
+        Menu menuEditar = new Menu(60)
+                .Titulo("Modificar servicio")
+                .AgregarCampo("Nombre")
+                .AgregarCampo("Descripcion")
+                .AgregarCampo("Precio por hora")
+                .AgregarCampo("Categorias")
+                .AgregarCampo("Complejidad")
+                .AgregarCampo("Horario")
+                .AgregarCampo("Ubicacion")
+                .AgregarCampo("Edad recomendada")
+                .AgregarCampo("Volver")
+                .Peticion("Ingrese una opcion:= ");
+        int opcion = menuEditar.MostrarYLeer(lector);
+        switch (opcion) {
+            case 1:
+                System.out.print("Nuevo nombre:= ");
+                servicio.SetNombre(lector.nextLine());
+                break;
+            case 2:
+                System.out.print("Nueva descripcion:= ");
+                servicio.SetDescripcion(lector.nextLine());
+                break;
+            case 3:
+                servicio.SetPrecioHora(LeerDouble("Nuevo precio:= "));
+                break;
+            case 4:
+                servicio.SetTipos(SeleccionarCategorias());
+                break;
+            case 5:
+                servicio.SetComplejidad(SeleccionarComplejidad());
+                break;
+            case 6:
+                servicio.SetHorarioRealizacion(SeleccionarHorario());
+                break;
+            case 7:
+                System.out.print("Ciudad:= ");
+                String ciudad = lector.nextLine();
+                System.out.print("Municipio:= ");
+                String municipio = lector.nextLine();
+                servicio.SetUbicacion(new Ubicacion(ciudad, municipio));
+                break;
+            case 8:
+                System.out.print("Edad recomendada:= ");
+                servicio.SetEdadRecomendada(lector.nextLine());
+                break;
+            case 9:
+                return;
+        }
+        if (requiereValidacion) {
+            servicio.SetEstadoPublicacion(EstadoServicio.PENDIENTE);
+        }
+    }
+
+    private static Servicio SeleccionarServicio(List<Servicio> servicios, String titulo) {
+        if (servicios == null || servicios.isEmpty()) {
+            System.out.println("No hay servicios disponibles.");
+            return null;
+        }
+        Menu menu = new Menu(80)
+                .Titulo(titulo)
+                .Peticion("Seleccione un servicio:= ");
+        for (Servicio servicio : servicios) {
+            menu.AgregarCampo(servicio.InfoResumida());
+        }
+        menu.AgregarCampo("Volver");
+        int opcion = menu.MostrarYLeer(lector);
+        if (opcion == servicios.size() + 1) {
+            return null;
+        }
+        return servicios.get(opcion - 1);
+    }
+
+    private static UsuarioFinal SeleccionarUsuarioFinal(SistemaSIS sistema) {
+        List<UsuarioFinal> usuarios = ObtenerUsuariosFinales(sistema);
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios finales registrados.");
+            return null;
+        }
+        Menu menu = new Menu(60)
+                .Titulo("Usuarios finales")
+                .Peticion("Seleccione un usuario:= ");
+        for (UsuarioFinal usuario : usuarios) {
+            menu.AgregarCampo(usuario.GetEmail() + " | " + usuario.GetNick());
+        }
+        menu.AgregarCampo("Volver");
+        int opcion = menu.MostrarYLeer(lector);
+        if (opcion == usuarios.size() + 1) {
+            return null;
+        }
+        return usuarios.get(opcion - 1);
+    }
+
+    private static List<UsuarioFinal> ObtenerUsuariosFinales(SistemaSIS sistema) {
+        List<UsuarioFinal> usuariosFinales = new ArrayList<>();
+        for (Usuario usuario : sistema.GetGestorUsuarios().GetUsuarios()) {
+            if (usuario instanceof UsuarioFinal) {
+                usuariosFinales.add((UsuarioFinal) usuario);
+            }
+        }
+        return usuariosFinales;
+    }
+
+    private static double CalificacionPromedioUsuario(UsuarioFinal usuario) {
+        List<Servicio> servicios = usuario.GetServiciosBrindados();
+        if (servicios.isEmpty()) {
+            return 0.0;
+        }
+        double suma = 0.0;
+        for (Servicio servicio : servicios) {
+            suma += servicio.GetCalificacionPromedio();
+        }
+        return suma / servicios.size();
+    }
+
+    private static void ImprimirUsuariosConCalificacion(List<UsuarioFinal> usuarios) {
+        if (usuarios.isEmpty()) {
+            System.out.println("No hay usuarios para mostrar.");
+            return;
+        }
+        for (UsuarioFinal usuario : usuarios) {
+            double calificacion = CalificacionPromedioUsuario(usuario);
+            System.out.printf("%s | %.2f%n", usuario.GetEmail(), calificacion);
+        }
+    }
+
+    private static void ImprimirServicios(List<Servicio> servicios) {
+        if (servicios == null || servicios.isEmpty()) {
+            System.out.println("No hay servicios para mostrar.");
+            return;
+        }
+        for (Servicio servicio : servicios) {
+            System.out.println(servicio.InfoResumida());
+        }
+    }
+
+    private static void MostrarMisServicios(UsuarioFinal usuario) {
+        Servicio servicio = SeleccionarServicio(usuario.GetServiciosBrindados(), "Mis servicios");
+        if (servicio == null) {
+            return;
+        }
+        System.out.println(servicio.InfoAll());
+    }
+
+    private static Complejidad SeleccionarComplejidad() {
+        Menu menu = new Menu(40)
+                .Titulo("Complejidad")
+                .Peticion("Seleccione un nivel:= ");
+        for (Complejidad nivel : Complejidad.values()) {
+            menu.AgregarCampo(nivel.name());
+        }
+        int opcion = menu.MostrarYLeer(lector);
+        return Complejidad.values()[opcion - 1];
+    }
+
+    private static Horario SeleccionarHorario() {
+        Menu menu = new Menu(40)
+                .Titulo("Horario")
+                .Peticion("Seleccione un horario:= ");
+        for (Horario horario : Horario.values()) {
+            menu.AgregarCampo(horario.name());
+        }
+        int opcion = menu.MostrarYLeer(lector);
+        return Horario.values()[opcion - 1];
+    }
+
+    private static List<String> SeleccionarCategorias() {
+        System.out.println("Categorias disponibles:");
+        for (int i = 0; i < CATEGORIAS_DEFAULT.size(); i++) {
+            System.out.println((i + 1) + ". " + CATEGORIAS_DEFAULT.get(i));
+        }
+        System.out.print("Ingrese numeros separados por coma (opcional):= ");
+        String entrada = lector.nextLine();
+        List<String> categorias = new ArrayList<>();
+        if (!entrada.trim().isEmpty()) {
+            String[] partes = entrada.split(",");
+            for (String parte : partes) {
+                try {
+                    int indice = Integer.parseInt(parte.trim());
+                    if (indice >= 1 && indice <= CATEGORIAS_DEFAULT.size()) {
+                        categorias.add(CATEGORIAS_DEFAULT.get(indice - 1));
+                    }
+                } catch (NumberFormatException ex) {
+                    System.out.println("Categoria ignorada: " + parte);
+                }
+            }
+        }
+        System.out.print("Categorias adicionales (texto, separadas por coma):= ");
+        String extra = lector.nextLine();
+        categorias.addAll(ParsearLista(extra));
+        if (categorias.isEmpty()) {
+            categorias.add("General");
+        }
+        return categorias;
+    }
+
+    private static List<String> ParsearLista(String entrada) {
+        List<String> lista = new ArrayList<>();
+        if (entrada == null || entrada.trim().isEmpty()) {
+            return lista;
+        }
+        String[] partes = entrada.split(",");
+        for (String parte : partes) {
+            String valor = parte.trim();
+            if (!valor.isEmpty()) {
+                lista.add(valor);
+            }
+        }
+        return lista;
+    }
+
+    private static double LeerDouble(String mensaje) {
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                String entrada = lector.nextLine();
+                return Double.parseDouble(entrada);
+            } catch (NumberFormatException ex) {
+                System.out.println("Valor invalido, intente de nuevo.");
+            }
+        }
+    }
     
     private static UsuarioFinal PedirUsuario() 
     {
@@ -439,16 +1134,17 @@ public class IntegradoraSIS2026 {
 
         int opcion = menuCategorias.MostrarYLeer(lector);
         String categoriaSeleccionada = CATEGORIAS_DEFAULT.get(opcion - 1);
-        List<Servicio> filtrados = FiltrarServiciosPorCategoria(gestorServicios.GetServicios(), categoriaSeleccionada);
-        MostrarListaServicios(filtrados, lector, "Servicios - " + categoriaSeleccionada);
+        List<Servicio> aprobados = gestorServicios.GetServiciosAprobados();
+        List<Servicio> filtrados = FiltrarServiciosPorCategoria(aprobados, categoriaSeleccionada);
+        MostrarListaServicios(filtrados, lector, "Servicios - " + categoriaSeleccionada, aprobados);
     }
 
     private static void MostrarCatalogoTodos(GestorServicios gestorServicios, Scanner lector) {
-        List<Servicio> servicios = gestorServicios.GetServicios();
-        MostrarListaServicios(servicios, lector, "Todos los servicios");
+        List<Servicio> servicios = gestorServicios.GetServiciosAprobados();
+        MostrarListaServicios(servicios, lector, "Todos los servicios", servicios);
     }
 
-    private static void MostrarListaServicios(List<Servicio> servicios, Scanner lector, String titulo) {
+    private static void MostrarListaServicios(List<Servicio> servicios, Scanner lector, String titulo, List<Servicio> universo) {
         if (servicios.isEmpty()) {
             System.out.println("No hay servicios disponibles en este catalogo.");
             return;
@@ -470,6 +1166,14 @@ public class IntegradoraSIS2026 {
 
         Servicio seleccionado = servicios.get(opcion - 1);
         System.out.println(seleccionado.InfoAll());
+
+        List<Servicio> relacionados = Reportes.ServiciosRelacionados(seleccionado, universo);
+        if (!relacionados.isEmpty()) {
+            System.out.println("Servicios relacionados:");
+            for (Servicio relacionado : relacionados) {
+                System.out.println("- " + relacionado.InfoResumida());
+            }
+        }
         System.out.print("Presione Enter para volver...");
         lector.nextLine();
     }
@@ -503,8 +1207,11 @@ public class IntegradoraSIS2026 {
         }
 
         UsuarioFinal proveedorEjemplo = (UsuarioFinal) sistema.GetGestorUsuarios().BuscarUsuario("santiagogonuz@gmail.com");
+        if (proveedorEjemplo == null) {
+            return;
+        }
 
-        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+        Servicio servicio1 = CrearServicioEjemplo(
             "Limpieza de hogar express",
             "Limpieza basica de habitaciones y areas comunes.",
             120.0,
@@ -515,9 +1222,11 @@ public class IntegradoraSIS2026 {
             Arrays.asList("Hogar"),
             4.3,
             proveedorEjemplo
-        ));
+        );
+        gestorServicios.RegistrarServicio(servicio1);
+        proveedorEjemplo.AgregarServicioBrindado(servicio1);
 
-        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+        Servicio servicio2 = CrearServicioEjemplo(
             "Soporte tecnico basico",
             "Revision de equipo, limpieza de software y ajustes de rendimiento.",
             200.0,
@@ -528,9 +1237,11 @@ public class IntegradoraSIS2026 {
             Arrays.asList("Tecnologia"),
             4.6,
             proveedorEjemplo
-        ));
+        );
+        gestorServicios.RegistrarServicio(servicio2);
+        proveedorEjemplo.AgregarServicioBrindado(servicio2);
 
-        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+        Servicio servicio3 = CrearServicioEjemplo(
             "Clases de matematicas",
             "Asesoria para nivel secundaria y preparatoria.",
             150.0,
@@ -541,9 +1252,11 @@ public class IntegradoraSIS2026 {
             Arrays.asList("Educacion"),
             4.8,
             proveedorEjemplo
-        ));
+        );
+        gestorServicios.RegistrarServicio(servicio3);
+        proveedorEjemplo.AgregarServicioBrindado(servicio3);
 
-        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+        Servicio servicio4 = CrearServicioEjemplo(
             "Traslado al aeropuerto",
             "Servicio de traslado seguro con reservacion previa.",
             300.0,
@@ -554,9 +1267,11 @@ public class IntegradoraSIS2026 {
             Arrays.asList("Transporte"),
             4.2,
             proveedorEjemplo
-        ));
+        );
+        gestorServicios.RegistrarServicio(servicio4);
+        proveedorEjemplo.AgregarServicioBrindado(servicio4);
 
-        gestorServicios.RegistrarServicio(CrearServicioEjemplo(
+        Servicio servicio5 = CrearServicioEjemplo(
             "Cobertura fotografica de eventos",
             "Sesion fotografica y edicion basica incluida.",
             500.0,
@@ -567,7 +1282,9 @@ public class IntegradoraSIS2026 {
             Arrays.asList("Eventos", "Tecnologia"),
             4.7,
             proveedorEjemplo
-        ));
+        );
+        gestorServicios.RegistrarServicio(servicio5);
+        proveedorEjemplo.AgregarServicioBrindado(servicio5);
     }
 
     private static Servicio CrearServicioEjemplo(
@@ -586,6 +1303,7 @@ public class IntegradoraSIS2026 {
         servicio.SetDescripcion(descripcion);
         servicio.SetTipos(new ArrayList<>(categorias));
         servicio.SetCalificacionPromedio(calificacion);
+        servicio.SetEstadoPublicacion(EstadoServicio.APROBADO);
         return servicio;
     }
 }

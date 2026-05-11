@@ -5,6 +5,7 @@
 package com.sis.integradorasis2026;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,9 @@ public class Servicio {
     private double calificacionPromedio;
     private List<Opinion> opiniones;
     private Usuario proveedor;
+    private Usuario creador;
+    private EstadoServicio estadoPublicacion;
+    private Date fechaPublicacion;
    
     public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, Usuario proveedor) {
         this.nombre = nombre;
@@ -34,6 +38,9 @@ public class Servicio {
         this.horarioRealizacion = horarioRealizacion;
         this.edadRecomendada = edadRecomendada;
         this.proveedor = proveedor;
+        this.creador = proveedor;
+        this.estadoPublicacion = EstadoServicio.PENDIENTE;
+        this.fechaPublicacion = new Date();
     }
  
     public String GetNombre()
@@ -134,6 +141,28 @@ public class Servicio {
     public void SetOpiniones(List<Opinion> opiniones)
     {
         this.opiniones = opiniones;
+        RecalcularCalificacion();
+    }
+
+    public void AgregarOpinion(Opinion opinion)
+    {
+        if (opinion != null) {
+            opiniones.add(opinion);
+            RecalcularCalificacion();
+        }
+    }
+
+    private void RecalcularCalificacion()
+    {
+        if (opiniones.isEmpty()) {
+            calificacionPromedio = 0.0;
+            return;
+        }
+        double suma = 0.0;
+        for (Opinion opinion : opiniones) {
+            suma += opinion == null ? 0.0 : opinion.GetCalificacion();
+        }
+        calificacionPromedio = suma / opiniones.size();
     }
  
     private String generarEstrellas()
@@ -159,16 +188,46 @@ public class Servicio {
     public Usuario GetProveedor() {
         return proveedor;
     }
+
+    public Usuario GetCreador() {
+        return creador;
+    }
+
+    public void SetCreador(Usuario creador) {
+        this.creador = creador;
+    }
+
+    public EstadoServicio GetEstadoPublicacion() {
+        return estadoPublicacion;
+    }
+
+    public void SetEstadoPublicacion(EstadoServicio estadoPublicacion) {
+        this.estadoPublicacion = estadoPublicacion;
+    }
+
+    public void Aprobar() {
+        this.estadoPublicacion = EstadoServicio.APROBADO;
+    }
+
+    public void Rechazar() {
+        this.estadoPublicacion = EstadoServicio.RECHAZADO;
+    }
+
+    public Date GetFechaPublicacion() {
+        return fechaPublicacion;
+    }
     
     public String InfoResumida()
     {
+        String estadoExtra = estadoPublicacion == EstadoServicio.APROBADO ? "" : " | " + estadoPublicacion;
         return String.format(
-            "%s | $%.2f/hora | %s (%.1f) | %s",
+            "%s | $%.2f/hora | %s (%.1f) | %s%s",
             nombre,
             precioHora,
             generarEstrellas(),
             calificacionPromedio,
-            complejidad
+            complejidad,
+            estadoExtra
         );
     }
     
@@ -206,6 +265,8 @@ public class Servicio {
                 cadena += "├─ " + opinion.toString() + "\n";
             }
         }
+        cadena += "\nESTADO PUBLICACION:\n";
+        cadena += "└─ " + estadoPublicacion + "\n";
         cadena += "\n" + "─".repeat(70) + "\n";
         return cadena;
     }

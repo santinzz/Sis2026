@@ -23,9 +23,44 @@ public class Pago {
     {
         this.estado = EstadoPago.COMPLETADO;
     }
+
+    public void Cancelar()
+    {
+        this.estado = EstadoPago.CANCELADO;
+    }
     
     public double GetMonto()
     {
         return monto;
+    }
+
+    public Usuario GetCliente()
+    {
+        return cliente;
+    }
+
+    public Usuario GetProveedor()
+    {
+        return proveedor;
+    }
+
+    public Servicio GetServicio()
+    {
+        return servicio;
+    }
+
+    public Date GetFecha()
+    {
+        return fecha;
+    }
+
+    public EstadoPago GetEstado()
+    {
+        return estado;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s | $%.2f | %s", estado, monto, servicio == null ? "Servicio" : servicio.GetNombre());
     }
 }

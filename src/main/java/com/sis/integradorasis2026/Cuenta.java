@@ -36,6 +36,21 @@ public class Cuenta {
         historialTransacciones.add(new Transaccion(monto, TipoTransaccion.RETIRO, "Retiro"));
     }
 
+    public void RegistrarPagoSalida(double monto, String concepto)
+    {
+        if (monto <= 0) throw new IllegalArgumentException("El monto del pago debe ser mayor a cero.");
+        if (monto > saldo) throw new IllegalArgumentException("Saldo insuficiente para el pago.");
+        saldo -= monto;
+        historialTransacciones.add(new Transaccion(monto, TipoTransaccion.PAGO, concepto));
+    }
+
+    public void RegistrarPagoEntrada(double monto, String concepto)
+    {
+        if (monto <= 0) throw new IllegalArgumentException("El monto del pago debe ser mayor a cero.");
+        saldo += monto;
+        historialTransacciones.add(new Transaccion(monto, TipoTransaccion.PAGO, concepto));
+    }
+
     public double GetSaldo()
     {
         return saldo;
@@ -43,6 +58,6 @@ public class Cuenta {
 
     public List<Transaccion> GetHistorialTransacciones()
     {
-        return historialTransacciones;
+        return new ArrayList<>(historialTransacciones);
     }
 }

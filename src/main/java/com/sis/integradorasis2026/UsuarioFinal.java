@@ -18,6 +18,8 @@ public class UsuarioFinal extends Usuario {
     private Cuenta cuenta;
     private List<Servicio> serviciosBrindados;
     private List<Servicio> serviciosRecibidos;
+    private List<Pago> pagosRealizados;
+    private List<Pago> pagosRecibidos;
     
     public UsuarioFinal(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, String nick, Date fechaAlta) 
     {
@@ -27,6 +29,8 @@ public class UsuarioFinal extends Usuario {
         this.serviciosBrindados = new ArrayList<>();
         this.serviciosRecibidos = new ArrayList<>();
         this.cuenta = new Cuenta();
+        this.pagosRealizados = new ArrayList<>();
+        this.pagosRecibidos = new ArrayList<>();
     }
     
     public String GetNick()
@@ -42,5 +46,49 @@ public class UsuarioFinal extends Usuario {
     public Cuenta GetCuenta()
     {
         return cuenta;
+    }
+
+    public List<Servicio> GetServiciosBrindados() {
+        return new ArrayList<>(serviciosBrindados);
+    }
+
+    public List<Servicio> GetServiciosRecibidos() {
+        return new ArrayList<>(serviciosRecibidos);
+    }
+
+    public void AgregarServicioBrindado(Servicio servicio) {
+        if (servicio != null) {
+            serviciosBrindados.add(servicio);
+        }
+    }
+
+    public void RemoverServicioBrindado(Servicio servicio) {
+        serviciosBrindados.remove(servicio);
+    }
+
+    public void AgregarServicioRecibido(Servicio servicio) {
+        if (servicio != null) {
+            serviciosRecibidos.add(servicio);
+        }
+    }
+
+    public List<Pago> GetPagosRealizados() {
+        return new ArrayList<>(pagosRealizados);
+    }
+
+    public List<Pago> GetPagosRecibidos() {
+        return new ArrayList<>(pagosRecibidos);
+    }
+
+    public void RegistrarPagoRealizado(Pago pago) {
+        if (pago != null) {
+            pagosRealizados.add(pago);
+        }
+    }
+
+    public void RegistrarPagoRecibido(Pago pago) {
+        if (pago != null) {
+            pagosRecibidos.add(pago);
+        }
     }
 }

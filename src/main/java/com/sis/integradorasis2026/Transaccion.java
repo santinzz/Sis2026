@@ -14,4 +14,25 @@ public class Transaccion {
         this.concepto = concepto;
         this.fecha = new Date();
     }
+
+    public double GetMonto() {
+        return monto;
+    }
+
+    public TipoTransaccion GetTipo() {
+        return tipo;
+    }
+
+    public Date GetFecha() {
+        return fecha;
+    }
+
+    public String GetConcepto() {
+        return concepto;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s | $%.2f | %s", tipo, monto, concepto);
+    }
 }

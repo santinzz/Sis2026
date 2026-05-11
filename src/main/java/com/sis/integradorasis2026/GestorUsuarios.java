@@ -52,6 +52,10 @@ public class GestorUsuarios {
         String emailNormalizado = Usuario.NormalizarEmail(email);
         return BuscarUsuarioNormalizado(emailNormalizado);
     }
+
+    public List<Usuario> GetUsuarios() {
+        return new ArrayList<>(usuarios);
+    }
     
     public void IniciarSesion(String email, String contrasena) {
         String emailNormalizado = Usuario.NormalizarEmail(email);
