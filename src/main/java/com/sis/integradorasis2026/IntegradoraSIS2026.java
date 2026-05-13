@@ -84,6 +84,7 @@ public class IntegradoraSIS2026 {
                         System.out.print("Ingrese su contrasena:= ");
                         String contrasena = lector.nextLine();
                         
+                        
                         sistema.GetGestorUsuarios().IniciarSesion(correo, contrasena);
                         break;
                     }

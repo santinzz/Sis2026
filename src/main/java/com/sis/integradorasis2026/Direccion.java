@@ -9,12 +9,14 @@ package com.sis.integradorasis2026;
  * @author santi
  */
 public class Direccion {
+    //Declaración de atributos para la clase Direccion
     private String calle;
     private int numero;
     private String ciudad;
     private String estado;
     private int codigoPostal;
     
+    // Constructor para inicializar la dirección
     public Direccion(String calle, int numero, String ciudad, String estado, int codigoPostal)
     {
         this.calle = calle;
@@ -24,6 +26,7 @@ public class Direccion {
         this.codigoPostal = codigoPostal;
     }
     
+    // Métodos Get y Set
     public String GetCalle()
     {
         return calle;
@@ -74,6 +77,7 @@ public class Direccion {
         this.codigoPostal = codigoPostal;
     }
     
+    // Método toString para representar la dirección como una cadena de texto
     @Override
     public String toString()
     {

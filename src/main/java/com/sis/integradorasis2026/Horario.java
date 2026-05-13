@@ -8,6 +8,7 @@ package com.sis.integradorasis2026;
  *
  * @author santi
  */
+// Metodo para declarar las constantes de horario: mañana, mediodía, tarde o noche
 public enum Horario {
     MANANA, MEDIODIA, TARDE, NOCHE
 }

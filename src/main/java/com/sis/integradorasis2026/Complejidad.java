@@ -8,6 +8,7 @@ package com.sis.integradorasis2026;
  *
  * @author santi
  */
+// Metodo para declarar las constantes: complejidad de una tarea
 public enum Complejidad
 {
     BAJA, BAJA_MEDIA, MEDIA, MEDIA_ALTA, ALTA

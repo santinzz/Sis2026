@@ -14,16 +14,19 @@ import java.util.List;
  * @author santi
  */
 public class Opinion {
+    // Declaración de atributos
     private String comentario;
     private double calificacion;
     private Date fecha;
     private String autorEmail;
     private List<String> evidencias;
     
+    // Constructor para inicializar la opinión
     public Opinion(String comentario, double calificacion) {
         this(comentario, calificacion, null, new ArrayList<>());
     }
 
+    // Constructor para inicializar la opinión con autor y evidencias
     public Opinion(String comentario, double calificacion, String autorEmail, List<String> evidencias) {
         this.comentario = comentario;
         this.calificacion = calificacion;
@@ -32,6 +35,7 @@ public class Opinion {
         this.fecha = new Date();
     }
 
+    // Métodos get
     public String GetAutorEmail() {
         return autorEmail;
     }
@@ -45,6 +49,7 @@ public class Opinion {
     }
 
     @Override
+    // Método toString para mostrar la opinión de forma legible
     public String toString() {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         String comentarioSeguro = comentario == null ? "(sin comentario)" : comentario;

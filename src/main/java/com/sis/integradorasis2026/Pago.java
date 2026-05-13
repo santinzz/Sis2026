@@ -3,6 +3,7 @@ package com.sis.integradorasis2026;
 import java.util.Date;
 
 public class Pago {
+    // Declaración de atributos
     private Usuario cliente;
     private Usuario proveedor;
     private Servicio servicio;
@@ -10,6 +11,7 @@ public class Pago {
     private Date fecha;
     private EstadoPago estado;
 
+    // Constructor para inicializar el pago
     public Pago(Usuario cliente, Usuario proveedor, Servicio servicio, double monto) {
         this.cliente = cliente;
         this.proveedor = proveedor;
@@ -19,6 +21,7 @@ public class Pago {
         this.estado = EstadoPago.PENDIENTE;
     }
 
+    // Métodos de comportamiento
     public void Completar()
     {
         this.estado = EstadoPago.COMPLETADO;
@@ -29,6 +32,7 @@ public class Pago {
         this.estado = EstadoPago.CANCELADO;
     }
     
+    // Métodos get
     public double GetMonto()
     {
         return monto;
@@ -60,6 +64,7 @@ public class Pago {
     }
 
     @Override
+    // Método toString para mostrar el pago de forma legible
     public String toString() {
         return String.format("%s | $%.2f | %s", estado, monto, servicio == null ? "Servicio" : servicio.GetNombre());
     }
