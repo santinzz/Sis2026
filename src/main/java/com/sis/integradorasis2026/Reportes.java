@@ -5,6 +5,8 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Reportes {
+	// MÉTODOS DE FILTRADO Y ANÁLISIS
+	// Filtrar servicios por categoría
 	public static List<Servicio> ServiciosPorCategoria(List<Servicio> servicios, String categoria) {
 		List<Servicio> filtrados = new ArrayList<>();
 		if (servicios == null || categoria == null) {
@@ -22,6 +24,7 @@ public class Reportes {
 		return filtrados;
 	}
 
+	// Filtrar servicios por precio
 	public static List<Servicio> ServiciosPorPrecio(List<Servicio> servicios, double min, double max) {
 		List<Servicio> filtrados = new ArrayList<>();
 		if (servicios == null) {
@@ -36,6 +39,7 @@ public class Reportes {
 		return filtrados;
 	}
 
+	// Filtrar servicios por ciudad
 	public static List<Servicio> ServiciosPorCiudad(List<Servicio> servicios, String ciudad) {
 		List<Servicio> filtrados = new ArrayList<>();
 		if (servicios == null || ciudad == null) {
@@ -51,6 +55,7 @@ public class Reportes {
 		return filtrados;
 	}
 
+	// Filtrar servicios por calificación
 	public static List<Servicio> ServiciosPorCalificacion(List<Servicio> servicios, double minimo) {
 		List<Servicio> filtrados = new ArrayList<>();
 		if (servicios == null) {
@@ -64,6 +69,7 @@ public class Reportes {
 		return filtrados;
 	}
 
+	// Filtrar los mejores servicios
 	public static List<Servicio> TopServicios(List<Servicio> servicios, int limite, boolean mejores) {
 		List<Servicio> ordenados = new ArrayList<>();
 		if (servicios == null) {
@@ -80,6 +86,7 @@ public class Reportes {
 		return new ArrayList<>(ordenados.subList(0, limite));
 	}
 
+	// Obtener el último pago realizado
 	public static Pago UltimoPago(List<Pago> pagos) {
 		if (pagos == null || pagos.isEmpty()) {
 			return null;
@@ -93,6 +100,7 @@ public class Reportes {
 		return ultimo;
 	}
 
+	// Obtener comentarios por usuario
 	public static List<Opinion> ComentariosPorUsuario(List<Servicio> servicios, String email) {
 		List<Opinion> opiniones = new ArrayList<>();
 		if (servicios == null || email == null) {
@@ -109,6 +117,7 @@ public class Reportes {
 		return opiniones;
 	}
 
+	// Obtener servicios relacionados por tipo
 	public static List<Servicio> ServiciosRelacionados(Servicio base, List<Servicio> servicios) {
 		List<Servicio> relacionados = new ArrayList<>();
 		if (base == null || servicios == null) {

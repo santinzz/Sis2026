@@ -13,6 +13,7 @@ import java.util.List;
  * @author santi
  */
 public class Servicio {
+    // Declaración de atributos
     private String nombre;
     private String descripcion;
     private List<String> tipos;
@@ -28,6 +29,7 @@ public class Servicio {
     private EstadoServicio estadoPublicacion;
     private Date fechaPublicacion;
    
+    // Constructor para inicializar el servicio
     public Servicio(String nombre, double precioHora, Complejidad complejidad, Ubicacion ubicacion, Horario horarioRealizacion, String edadRecomendada, Usuario proveedor) {
         this.nombre = nombre;
         this.precioHora = precioHora;
@@ -43,6 +45,7 @@ public class Servicio {
         this.fechaPublicacion = new Date();
     }
  
+    //Métodos Get y Set
     public String GetNombre()
     {
         return nombre;
@@ -144,6 +147,7 @@ public class Servicio {
         RecalcularCalificacion();
     }
 
+    // Método para agregar una opinión y recalcular la calificación promedio en base a las opiniones actuales
     public void AgregarOpinion(Opinion opinion)
     {
         if (opinion != null) {
@@ -152,6 +156,7 @@ public class Servicio {
         }
     }
 
+    // Método para eliminar una opinión y recalcular la calificación promedio en base a las opiniones actuales
     private void RecalcularCalificacion()
     {
         if (opiniones.isEmpty()) {
@@ -165,6 +170,7 @@ public class Servicio {
         calificacionPromedio = suma / opiniones.size();
     }
  
+    // Método privado para generar una representación de estrellas basada en la calificación promedio
     private String generarEstrellas()
     {
         StringBuilder estrellas = new StringBuilder();
@@ -185,6 +191,7 @@ public class Servicio {
         return estrellas.toString();
     }
 
+    // Métodos Get y Set
     public Usuario GetProveedor() {
         return proveedor;
     }
@@ -205,6 +212,7 @@ public class Servicio {
         this.estadoPublicacion = estadoPublicacion;
     }
 
+    // Métodos de comportamiento para aprobar o rechazar el servicio
     public void Aprobar() {
         this.estadoPublicacion = EstadoServicio.APROBADO;
     }
@@ -213,10 +221,12 @@ public class Servicio {
         this.estadoPublicacion = EstadoServicio.RECHAZADO;
     }
 
+    // Método para actualizar la fecha de publicación a la fecha actual
     public Date GetFechaPublicacion() {
         return fechaPublicacion;
     }
     
+    // Método para mostrar una vista resumida del servicio de forma legible
     public String InfoResumida()
     {
         String estadoExtra = estadoPublicacion == EstadoServicio.APROBADO ? "" : " | " + estadoPublicacion;
@@ -231,6 +241,7 @@ public class Servicio {
         );
     }
     
+    // Método para mostrar toda la información del servicio de forma legible
     public String InfoAll()
     {
         String cadena = "";
