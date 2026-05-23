@@ -4,20 +4,19 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
 public class Ubicacion {
+    // Declaración de atributos
     private String ciudad;
     private String municipio;
     
+    // Constructor para inicializar la ubicación
     public Ubicacion(String ciudad, String municipio)
     {
         this.ciudad = ciudad;
         this.municipio = municipio;
     }
     
+    // Métodos get para acceder a los atributos de la ubicación
     public String GetCiudad()
     {
         return ciudad;
@@ -29,6 +28,7 @@ public class Ubicacion {
     }
 
     @Override
+    // Método toString para visualizar la ubicación como una cadena de texto
     public String toString() {
         return String.format("%s, %s", municipio, ciudad);
     }

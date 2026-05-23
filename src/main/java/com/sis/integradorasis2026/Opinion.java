@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author santi
- */
 public class Opinion {
     // Declaración de atributos
     private String comentario;

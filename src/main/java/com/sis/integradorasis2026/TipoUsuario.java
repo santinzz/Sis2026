@@ -4,10 +4,7 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
+// Declaración de tipos de usuario para el sistema
 public enum TipoUsuario {
    USUARIO_FINAL,
    ADMINISTRADOR

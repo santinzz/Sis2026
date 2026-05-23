@@ -4,25 +4,21 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
 public class SistemaSIS {
+    // Declaración de atributos
     private GestorUsuarios gestorUsuarios;
     private GestorServicios gestorServicios;
-    
+    // Constructor para inicializar el sistema
     public SistemaSIS()
     {
         this.gestorUsuarios = new GestorUsuarios();
         this.gestorServicios = new GestorServicios();
     }
-
+    // Métodos get para acceder a los gestores
     public GestorUsuarios GetGestorUsuarios()
     {
         return gestorUsuarios;
     }
-
     public GestorServicios GetGestorServicios()
     {
         return gestorServicios;

@@ -7,10 +7,6 @@ package com.sis.integradorasis2026;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author santi
- */
 public class Cuenta {
     //Declaración de atributos para la clase Cuenta
     private double saldo;

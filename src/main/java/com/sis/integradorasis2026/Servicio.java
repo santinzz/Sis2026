@@ -8,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author santi
- */
 public class Servicio {
     // Declaración de atributos
     private String nombre;

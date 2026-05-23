@@ -4,11 +4,6 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
-
 // Clase Administrador que hereda de Usuario
 public class Administrador extends Usuario {
     public Administrador(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena) 

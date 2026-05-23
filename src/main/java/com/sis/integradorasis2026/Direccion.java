@@ -4,10 +4,6 @@
  */
 package com.sis.integradorasis2026;
 
-/**
- *
- * @author santi
- */
 public class Direccion {
     //Declaración de atributos para la clase Direccion
     private String calle;

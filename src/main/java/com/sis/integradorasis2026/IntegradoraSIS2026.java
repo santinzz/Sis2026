@@ -14,10 +14,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
-/**
- *
- * @author santi
- */
 public class IntegradoraSIS2026 {
     static Scanner lector = new Scanner(System.in);
     private static final List<String> CATEGORIAS_DEFAULT = Arrays.asList(

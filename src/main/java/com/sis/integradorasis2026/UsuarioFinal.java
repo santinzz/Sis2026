@@ -8,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- *
- * @author santi
- */
 public class UsuarioFinal extends Usuario {
+    // Declaración de atributos específicos para el usuario final
     private String nick;
     private Date fechaAlta;
     private Cuenta cuenta;
@@ -21,6 +18,7 @@ public class UsuarioFinal extends Usuario {
     private List<Pago> pagosRealizados;
     private List<Pago> pagosRecibidos;
     
+    // Constructor para inicializar el usuario final
     public UsuarioFinal(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, String nick, Date fechaAlta) 
     {
         super(nombre, apellidos, direccion, telefonoContacto, email, contrasena, TipoUsuario.USUARIO_FINAL);
@@ -33,6 +31,7 @@ public class UsuarioFinal extends Usuario {
         this.pagosRecibidos = new ArrayList<>();
     }
     
+    // Métodos get
     public String GetNick()
     {
         return nick;
@@ -56,16 +55,18 @@ public class UsuarioFinal extends Usuario {
         return new ArrayList<>(serviciosRecibidos);
     }
 
+    // Métodos para:
+    // Agregar servicios brindados y recibidos
     public void AgregarServicioBrindado(Servicio servicio) {
         if (servicio != null) {
             serviciosBrindados.add(servicio);
         }
     }
-
+    // Remover servicios brindados
     public void RemoverServicioBrindado(Servicio servicio) {
         serviciosBrindados.remove(servicio);
     }
-
+    // Agregar servicios recibidos
     public void AgregarServicioRecibido(Servicio servicio) {
         if (servicio != null) {
             serviciosRecibidos.add(servicio);
@@ -80,12 +81,13 @@ public class UsuarioFinal extends Usuario {
         return new ArrayList<>(pagosRecibidos);
     }
 
+    // Métodos para registrar pagos realizados y recibidos
     public void RegistrarPagoRealizado(Pago pago) {
         if (pago != null) {
             pagosRealizados.add(pago);
         }
     }
-
+    // Método para registrar un pago recibido, agregándolo a la lista de pagos recibidos del usuario final  
     public void RegistrarPagoRecibido(Pago pago) {
         if (pago != null) {
             pagosRecibidos.add(pago);

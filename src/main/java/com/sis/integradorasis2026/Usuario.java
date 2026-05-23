@@ -7,6 +7,7 @@ package com.sis.integradorasis2026;
 import java.util.Locale;
 
 abstract public class Usuario {
+    // Declaración de atributos
     private String nombre;
     private String apellidos;
     private Direccion direccion;
@@ -15,6 +16,7 @@ abstract public class Usuario {
     private String contrasena;
     private TipoUsuario tipoUsuario;
     
+    // Constructor para inicializar el usuario
     public Usuario(String nombre, String apellidos, Direccion direccion, String telefonoContacto, String email, String contrasena, TipoUsuario tipoUsuario) 
     {
         this.nombre = nombre;
@@ -26,6 +28,7 @@ abstract public class Usuario {
         this.tipoUsuario = tipoUsuario;
     } 
 
+    // Método para normalizar el email (eliminar espacios y convertir a minúsculas)
     public static String NormalizarEmail(String email)
     {
         if (email == null) {
@@ -34,6 +37,8 @@ abstract public class Usuario {
         return email.trim().toLowerCase(Locale.ROOT);
     }
     
+    // Métodos get y set
+    // Permiten acceder y modificar los atributos del usuario
     public String GetNombre()
     {
         return nombre;
@@ -98,12 +103,14 @@ abstract public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
     
+    // Método para autenticar al usuario comparando el email y la contraseña proporcionados con los almacenados
     public boolean Autenticar(String email, String contrasena) 
     {
         boolean esEmailCorrecto = GetEmail().equals(NormalizarEmail(email));
         return esEmailCorrecto && CompararContrasena(contrasena);
     }
 
+    // Método para cambiar la contraseña del usuario
     public void SetContrasena(String contrasena)
     {
         this.contrasena = contrasena;
