@@ -221,11 +221,11 @@ public class IntegradoraSIS2026 {
     private static void MenuEditarPerfil(UsuarioFinal usuario, Scanner lector) {
         Menu menuUsuario = new Menu(60)
                 .Titulo("Editar perfil")
-                .AgregarCampo("1. Cambiar nombre")
-                .AgregarCampo("2. Cambiar direccion")
-                .AgregarCampo("3. Cambiar telefono contacto")
-                .AgregarCampo("4. Cambiar contrasena")
-                .AgregarCampo("5. Volver")
+                .AgregarCampo("Cambiar nombre")
+                .AgregarCampo("Cambiar direccion")
+                .AgregarCampo("Cambiar telefono contacto")
+                .AgregarCampo("Cambiar contrasena")
+                .AgregarCampo("Volver")
                 .Peticion("Ingrese una opcion:= ");
         int opcionEdicion = menuUsuario.MostrarYLeer(lector);
         // Procesar opcion ingresada para editar el perfil del usuario
